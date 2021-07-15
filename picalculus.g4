@@ -23,7 +23,7 @@ Ws       : [ \t\r\n]+ -> channel(HIDDEN);
 Com		 : '//' . -> channel(HIDDEN);
 Bcom	 : '/*' . '*/' -> channel(HIDDEN);
 
-prog : stmt EOF;
+prog : stmt*;
 
 stmt : process_op
 	 | process_invoc
