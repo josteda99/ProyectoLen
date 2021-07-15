@@ -1,4 +1,4 @@
-// Generated from picalculus.g4 by ANTLR 4.7.2
+// Generated from /mnt/Files/Unal_asignaturas/Len_progra2021-1/Ant-LR/ProyectoLen/ProyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class picalculusParser extends Parser {
+public class PicalculusParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -20,13 +20,13 @@ public class picalculusParser extends Parser {
 		Tao=11, Spam=12, Con=13, Plus=14, Crech=15, Par=16, ParA=17, Colon=18, 
 		Ws=19, Bcom=20, Com=21;
 	public static final int
-		RULE_r = 0, RULE_stmt = 1, RULE_write = 2, RULE_read = 3, RULE_process_op = 4, 
-		RULE_create_ch = 5, RULE_if_cond = 6, RULE_process_invoc = 7, RULE_parameters = 8, 
-		RULE_process_decl = 9, RULE_oper = 10;
+		RULE_r = 0, RULE_stmt = 1, RULE_write = 2, RULE_read = 3, RULE_processOp = 4, 
+		RULE_createCh = 5, RULE_ifCond = 6, RULE_processInvoc = 7, RULE_parameters = 8, 
+		RULE_processDecl = 9, RULE_oper = 10;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"r", "stmt", "write", "read", "process_op", "create_ch", "if_cond", "process_invoc", 
-			"parameters", "process_decl", "oper"
+			"r", "stmt", "write", "read", "processOp", "createCh", "ifCond", "processInvoc", 
+			"parameters", "processDecl", "oper"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -80,7 +80,7 @@ public class picalculusParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "picalculus.g4"; }
+	public String getGrammarFileName() { return "Picalculus.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -92,13 +92,13 @@ public class picalculusParser extends Parser {
 	public ATN getATN() { return _ATN; }
 
 	String s = "";
-	public picalculusParser(TokenStream input) {
+	public PicalculusParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	public static class RContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(picalculusParser.EOF, 0); }
+		public TerminalNode EOF() { return getToken(PicalculusParser.EOF, 0); }
 		public List<StmtContext> stmt() {
 			return getRuleContexts(StmtContext.class);
 		}
@@ -111,11 +111,11 @@ public class picalculusParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_r; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterR(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterR(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitR(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitR(this);
 		}
 	}
 
@@ -156,14 +156,14 @@ public class picalculusParser extends Parser {
 	}
 
 	public static class StmtContext extends ParserRuleContext {
-		public Process_opContext process_op() {
-			return getRuleContext(Process_opContext.class,0);
+		public ProcessOpContext processOp() {
+			return getRuleContext(ProcessOpContext.class,0);
 		}
-		public Process_invocContext process_invoc() {
-			return getRuleContext(Process_invocContext.class,0);
+		public ProcessInvocContext processInvoc() {
+			return getRuleContext(ProcessInvocContext.class,0);
 		}
-		public Process_declContext process_decl() {
-			return getRuleContext(Process_declContext.class,0);
+		public ProcessDeclContext processDecl() {
+			return getRuleContext(ProcessDeclContext.class,0);
 		}
 		public OperContext oper() {
 			return getRuleContext(OperContext.class,0);
@@ -174,11 +174,11 @@ public class picalculusParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterStmt(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterStmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitStmt(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitStmt(this);
 		}
 	}
 
@@ -193,21 +193,21 @@ public class picalculusParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(30);
-				process_op();
+				processOp();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(31);
-				process_invoc();
+				processInvoc();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(32);
-				process_decl();
+				processDecl();
 				}
 				break;
 			case 4:
@@ -231,20 +231,20 @@ public class picalculusParser extends Parser {
 	}
 
 	public static class WriteContext extends ParserRuleContext {
-		public TerminalNode Can() { return getToken(picalculusParser.Can, 0); }
-		public TerminalNode Hat() { return getToken(picalculusParser.Hat, 0); }
-		public TerminalNode Var() { return getToken(picalculusParser.Var, 0); }
+		public TerminalNode Can() { return getToken(PicalculusParser.Can, 0); }
+		public TerminalNode Hat() { return getToken(PicalculusParser.Hat, 0); }
+		public TerminalNode Var() { return getToken(PicalculusParser.Var, 0); }
 		public WriteContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_write; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterWrite(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterWrite(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitWrite(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitWrite(this);
 		}
 	}
 
@@ -274,23 +274,23 @@ public class picalculusParser extends Parser {
 	}
 
 	public static class ReadContext extends ParserRuleContext {
-		public TerminalNode Can() { return getToken(picalculusParser.Can, 0); }
-		public List<TerminalNode> Par() { return getTokens(picalculusParser.Par); }
+		public TerminalNode Can() { return getToken(PicalculusParser.Can, 0); }
+		public List<TerminalNode> Par() { return getTokens(PicalculusParser.Par); }
 		public TerminalNode Par(int i) {
-			return getToken(picalculusParser.Par, i);
+			return getToken(PicalculusParser.Par, i);
 		}
-		public TerminalNode Var() { return getToken(picalculusParser.Var, 0); }
+		public TerminalNode Var() { return getToken(PicalculusParser.Var, 0); }
 		public ReadContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_read; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterRead(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterRead(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitRead(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitRead(this);
 		}
 	}
 
@@ -321,30 +321,30 @@ public class picalculusParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Process_opContext extends ParserRuleContext {
-		public List<TerminalNode> Cap() { return getTokens(picalculusParser.Cap); }
+	public static class ProcessOpContext extends ParserRuleContext {
+		public List<TerminalNode> Cap() { return getTokens(PicalculusParser.Cap); }
 		public TerminalNode Cap(int i) {
-			return getToken(picalculusParser.Cap, i);
+			return getToken(PicalculusParser.Cap, i);
 		}
-		public TerminalNode Con() { return getToken(picalculusParser.Con, 0); }
-		public TerminalNode Plus() { return getToken(picalculusParser.Plus, 0); }
-		public Process_opContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode Con() { return getToken(PicalculusParser.Con, 0); }
+		public TerminalNode Plus() { return getToken(PicalculusParser.Plus, 0); }
+		public ProcessOpContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_process_op; }
+		@Override public int getRuleIndex() { return RULE_processOp; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterProcess_op(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterProcessOp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitProcess_op(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitProcessOp(this);
 		}
 	}
 
-	public final Process_opContext process_op() throws RecognitionException {
-		Process_opContext _localctx = new Process_opContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_process_op);
+	public final ProcessOpContext processOp() throws RecognitionException {
+		ProcessOpContext _localctx = new ProcessOpContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_processOp);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -376,30 +376,30 @@ public class picalculusParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Create_chContext extends ParserRuleContext {
-		public List<TerminalNode> Par() { return getTokens(picalculusParser.Par); }
+	public static class CreateChContext extends ParserRuleContext {
+		public List<TerminalNode> Par() { return getTokens(PicalculusParser.Par); }
 		public TerminalNode Par(int i) {
-			return getToken(picalculusParser.Par, i);
+			return getToken(PicalculusParser.Par, i);
 		}
-		public TerminalNode Crech() { return getToken(picalculusParser.Crech, 0); }
-		public TerminalNode Can() { return getToken(picalculusParser.Can, 0); }
-		public Create_chContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode Crech() { return getToken(PicalculusParser.Crech, 0); }
+		public TerminalNode Can() { return getToken(PicalculusParser.Can, 0); }
+		public CreateChContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_create_ch; }
+		@Override public int getRuleIndex() { return RULE_createCh; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterCreate_ch(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterCreateCh(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitCreate_ch(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitCreateCh(this);
 		}
 	}
 
-	public final Create_chContext create_ch() throws RecognitionException {
-		Create_chContext _localctx = new Create_chContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_create_ch);
+	public final CreateChContext createCh() throws RecognitionException {
+		CreateChContext _localctx = new CreateChContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_createCh);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -424,35 +424,35 @@ public class picalculusParser extends Parser {
 		return _localctx;
 	}
 
-	public static class If_condContext extends ParserRuleContext {
-		public TerminalNode Iff() { return getToken(picalculusParser.Iff, 0); }
-		public List<TerminalNode> Var() { return getTokens(picalculusParser.Var); }
+	public static class IfCondContext extends ParserRuleContext {
+		public TerminalNode Iff() { return getToken(PicalculusParser.Iff, 0); }
+		public List<TerminalNode> Var() { return getTokens(PicalculusParser.Var); }
 		public TerminalNode Var(int i) {
-			return getToken(picalculusParser.Var, i);
+			return getToken(PicalculusParser.Var, i);
 		}
-		public TerminalNode Then() { return getToken(picalculusParser.Then, 0); }
+		public TerminalNode Then() { return getToken(PicalculusParser.Then, 0); }
 		public OperContext oper() {
 			return getRuleContext(OperContext.class,0);
 		}
-		public TerminalNode Eq() { return getToken(picalculusParser.Eq, 0); }
-		public TerminalNode Neq() { return getToken(picalculusParser.Neq, 0); }
-		public If_condContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode Eq() { return getToken(PicalculusParser.Eq, 0); }
+		public TerminalNode Neq() { return getToken(PicalculusParser.Neq, 0); }
+		public IfCondContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_if_cond; }
+		@Override public int getRuleIndex() { return RULE_ifCond; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterIf_cond(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterIfCond(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitIf_cond(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitIfCond(this);
 		}
 	}
 
-	public final If_condContext if_cond() throws RecognitionException {
-		If_condContext _localctx = new If_condContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_if_cond);
+	public final IfCondContext ifCond() throws RecognitionException {
+		IfCondContext _localctx = new IfCondContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_ifCond);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -490,32 +490,32 @@ public class picalculusParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Process_invocContext extends ParserRuleContext {
-		public TerminalNode Cap() { return getToken(picalculusParser.Cap, 0); }
-		public List<TerminalNode> Par() { return getTokens(picalculusParser.Par); }
+	public static class ProcessInvocContext extends ParserRuleContext {
+		public TerminalNode Cap() { return getToken(PicalculusParser.Cap, 0); }
+		public List<TerminalNode> Par() { return getTokens(PicalculusParser.Par); }
 		public TerminalNode Par(int i) {
-			return getToken(picalculusParser.Par, i);
+			return getToken(PicalculusParser.Par, i);
 		}
 		public ParametersContext parameters() {
 			return getRuleContext(ParametersContext.class,0);
 		}
-		public Process_invocContext(ParserRuleContext parent, int invokingState) {
+		public ProcessInvocContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_process_invoc; }
+		@Override public int getRuleIndex() { return RULE_processInvoc; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterProcess_invoc(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterProcessInvoc(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitProcess_invoc(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitProcessInvoc(this);
 		}
 	}
 
-	public final Process_invocContext process_invoc() throws RecognitionException {
-		Process_invocContext _localctx = new Process_invocContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_process_invoc);
+	public final ProcessInvocContext processInvoc() throws RecognitionException {
+		ProcessInvocContext _localctx = new ProcessInvocContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_processInvoc);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -541,17 +541,17 @@ public class picalculusParser extends Parser {
 	}
 
 	public static class ParametersContext extends ParserRuleContext {
-		public List<TerminalNode> Can() { return getTokens(picalculusParser.Can); }
+		public List<TerminalNode> Can() { return getTokens(PicalculusParser.Can); }
 		public TerminalNode Can(int i) {
-			return getToken(picalculusParser.Can, i);
+			return getToken(PicalculusParser.Can, i);
 		}
-		public List<TerminalNode> Colon() { return getTokens(picalculusParser.Colon); }
+		public List<TerminalNode> Colon() { return getTokens(PicalculusParser.Colon); }
 		public TerminalNode Colon(int i) {
-			return getToken(picalculusParser.Colon, i);
+			return getToken(PicalculusParser.Colon, i);
 		}
-		public List<TerminalNode> Var() { return getTokens(picalculusParser.Var); }
+		public List<TerminalNode> Var() { return getTokens(PicalculusParser.Var); }
 		public TerminalNode Var(int i) {
-			return getToken(picalculusParser.Var, i);
+			return getToken(PicalculusParser.Var, i);
 		}
 		public ParametersContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -559,11 +559,11 @@ public class picalculusParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_parameters; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterParameters(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterParameters(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitParameters(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitParameters(this);
 		}
 	}
 
@@ -629,36 +629,36 @@ public class picalculusParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Process_declContext extends ParserRuleContext {
-		public TerminalNode Cap() { return getToken(picalculusParser.Cap, 0); }
-		public List<TerminalNode> Par() { return getTokens(picalculusParser.Par); }
+	public static class ProcessDeclContext extends ParserRuleContext {
+		public TerminalNode Cap() { return getToken(PicalculusParser.Cap, 0); }
+		public List<TerminalNode> Par() { return getTokens(PicalculusParser.Par); }
 		public TerminalNode Par(int i) {
-			return getToken(picalculusParser.Par, i);
+			return getToken(PicalculusParser.Par, i);
 		}
 		public ParametersContext parameters() {
 			return getRuleContext(ParametersContext.class,0);
 		}
-		public TerminalNode Pd() { return getToken(picalculusParser.Pd, 0); }
+		public TerminalNode Pd() { return getToken(PicalculusParser.Pd, 0); }
 		public OperContext oper() {
 			return getRuleContext(OperContext.class,0);
 		}
-		public Process_declContext(ParserRuleContext parent, int invokingState) {
+		public ProcessDeclContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_process_decl; }
+		@Override public int getRuleIndex() { return RULE_processDecl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterProcess_decl(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterProcessDecl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitProcess_decl(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitProcessDecl(this);
 		}
 	}
 
-	public final Process_declContext process_decl() throws RecognitionException {
-		Process_declContext _localctx = new Process_declContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_process_decl);
+	public final ProcessDeclContext processDecl() throws RecognitionException {
+		ProcessDeclContext _localctx = new ProcessDeclContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_processDecl);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -694,15 +694,15 @@ public class picalculusParser extends Parser {
 		public ReadContext read() {
 			return getRuleContext(ReadContext.class,0);
 		}
-		public Create_chContext create_ch() {
-			return getRuleContext(Create_chContext.class,0);
+		public CreateChContext createCh() {
+			return getRuleContext(CreateChContext.class,0);
 		}
-		public If_condContext if_cond() {
-			return getRuleContext(If_condContext.class,0);
+		public IfCondContext ifCond() {
+			return getRuleContext(IfCondContext.class,0);
 		}
-		public List<TerminalNode> ParA() { return getTokens(picalculusParser.ParA); }
+		public List<TerminalNode> ParA() { return getTokens(PicalculusParser.ParA); }
 		public TerminalNode ParA(int i) {
-			return getToken(picalculusParser.ParA, i);
+			return getToken(PicalculusParser.ParA, i);
 		}
 		public List<OperContext> oper() {
 			return getRuleContexts(OperContext.class);
@@ -710,21 +710,21 @@ public class picalculusParser extends Parser {
 		public OperContext oper(int i) {
 			return getRuleContext(OperContext.class,i);
 		}
-		public TerminalNode Spam() { return getToken(picalculusParser.Spam, 0); }
-		public TerminalNode Cap() { return getToken(picalculusParser.Cap, 0); }
-		public TerminalNode Tao() { return getToken(picalculusParser.Tao, 0); }
-		public TerminalNode Dot() { return getToken(picalculusParser.Dot, 0); }
+		public TerminalNode Spam() { return getToken(PicalculusParser.Spam, 0); }
+		public TerminalNode Cap() { return getToken(PicalculusParser.Cap, 0); }
+		public TerminalNode Tao() { return getToken(PicalculusParser.Tao, 0); }
+		public TerminalNode Dot() { return getToken(PicalculusParser.Dot, 0); }
 		public OperContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_oper; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).enterOper(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterOper(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof picalculusListener ) ((picalculusListener)listener).exitOper(this);
+			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitOper(this);
 		}
 	}
 
@@ -768,13 +768,13 @@ public class picalculusParser extends Parser {
 				case 3:
 					{
 					setState(87);
-					create_ch();
+					createCh();
 					}
 					break;
 				case 4:
 					{
 					setState(88);
-					if_cond();
+					ifCond();
 					}
 					break;
 				}

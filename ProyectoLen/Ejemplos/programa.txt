@@ -1,0 +1,10 @@
+/** Esto es un 
+*	Bloque de
+*	Comentario
+**/
+
+
+// X(y,v) ::= [a/b'.a(c')].![if d' == e' then [f/g'.a/b'.a(c')]].&
+
+X(y, v) ::= [a/b'.a(c')]
+(#j).&

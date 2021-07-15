@@ -1,38 +1,38 @@
-grammar picalculus;
+grammar Picalculus;
 
 @lexer::members {int variable = 0;}
 @parser::members {String s = "";}
 
 r : stmt* EOF;
 
-stmt : process_op
-	 | process_invoc 
-	 | process_decl 
+stmt : processOp
+	 | processInvoc 
+	 | processDecl 
 	 | oper; 
 
 write : Can Hat Var;
 
 read : Can Par Var Par;
 
-process_op : Cap ( Con | Plus ) Cap;
+processOp : Cap ( Con | Plus ) Cap;
 
-create_ch : Par Crech Can Par;
+createCh : Par Crech Can Par;
 
-if_cond : Iff Var (Eq | Neq) Var Then oper;
+ifCond : Iff Var (Eq | Neq) Var Then oper;
 
-process_invoc : Cap Par parameters Par;
+processInvoc : Cap Par parameters Par;
 
 parameters :  ( Can Colon | Var Colon | Can | Var )*;
 
 // Declaracion de dlaraciones de procesos
-process_decl : Cap Par parameters Par Pd oper;
+processDecl : Cap Par parameters Par Pd oper;
 
-oper :( write | read  | create_ch | if_cond ) 
+oper :( write | read  | createCh | ifCond ) 
     | oper Dot oper
     | ParA oper ParA
     | Spam oper 
     | Cap
-	 | Tao;
+	| Tao;
 
 Cap      : [A-Z]+;
 Can      : [a-z];

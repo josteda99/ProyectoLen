@@ -51,12 +51,12 @@ r
 stmt
 write
 read
-process_op
-create_ch
-if_cond
-process_invoc
+processOp
+createCh
+ifCond
+processInvoc
 parameters
-process_decl
+processDecl
 oper
 
 

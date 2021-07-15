@@ -1,4 +1,4 @@
-// Generated from picalculus.g4 by ANTLR 4.7.2
+// Generated from /mnt/Files/Unal_asignaturas/Len_progra2021-1/Ant-LR/ProyectoLen/ProyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class picalculusLexer extends Lexer {
+public class PicalculusLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -86,13 +86,13 @@ public class picalculusLexer extends Lexer {
 
 	int variable = 0;
 
-	public picalculusLexer(CharStream input) {
+	public PicalculusLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "picalculus.g4"; }
+	public String getGrammarFileName() { return "Picalculus.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
