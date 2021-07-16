@@ -1,6 +1,5 @@
+// Generated from /home/josteda99/Documents/CompetiveCode/Lenguajes/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
 package proyectoLen.src.antlr;
-
-// Generated from /mnt/Files/Unal_asignaturas/Len_progra2021-1/Ant-LR/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -22,12 +21,12 @@ public class PicalculusParser extends Parser {
 		Tao=11, Spam=12, Con=13, Plus=14, Crech=15, Par=16, ParA=17, Colon=18, 
 		Ws=19, Bcom=20, Com=21;
 	public static final int
-		RULE_r = 0, RULE_stmt = 1, RULE_write = 2, RULE_read = 3, RULE_processOp = 4, 
+		RULE_prog = 0, RULE_stmt = 1, RULE_write = 2, RULE_read = 3, RULE_processOp = 4, 
 		RULE_createCh = 5, RULE_ifCond = 6, RULE_processInvoc = 7, RULE_parameters = 8, 
 		RULE_processDecl = 9, RULE_oper = 10;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"r", "stmt", "write", "read", "processOp", "createCh", "ifCond", "processInvoc", 
+			"prog", "stmt", "write", "read", "processOp", "createCh", "ifCond", "processInvoc", 
 			"parameters", "processDecl", "oper"
 		};
 	}
@@ -99,7 +98,7 @@ public class PicalculusParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
-	public static class RContext extends ParserRuleContext {
+	public static class ProgContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(PicalculusParser.EOF, 0); }
 		public List<StmtContext> stmt() {
 			return getRuleContexts(StmtContext.class);
@@ -107,15 +106,15 @@ public class PicalculusParser extends Parser {
 		public StmtContext stmt(int i) {
 			return getRuleContext(StmtContext.class,i);
 		}
-		public RContext(ParserRuleContext parent, int invokingState) {
+		public ProgContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_r; }
+		@Override public int getRuleIndex() { return RULE_prog; }
 	}
 
-	public final RContext r() throws RecognitionException {
-		RContext _localctx = new RContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_r);
+	public final ProgContext prog() throws RecognitionException {
+		ProgContext _localctx = new ProgContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_prog);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);

@@ -2,5 +2,6 @@
 	"java.project.referencedLibraries": [
 		"lib/**/*.jar",
 		"proyectoLen/lib/antlr-4.7.2-complete.jar"
-	]
+   ],
+   "spring-boot.ls.checkJVM": false
 }

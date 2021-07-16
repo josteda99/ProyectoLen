@@ -3,7 +3,7 @@ grammar Picalculus;
 @lexer::members {int variable = 0;}
 @parser::members {String s = "";}
 
-r : stmt* EOF;
+prog : stmt* EOF;
 
 stmt : processOp
 	 | processInvoc 

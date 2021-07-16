@@ -47,7 +47,7 @@ Bcom
 Com
 
 rule names:
-r
+prog
 stmt
 write
 read
