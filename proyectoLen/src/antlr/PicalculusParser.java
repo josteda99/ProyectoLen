@@ -1,4 +1,6 @@
-// Generated from /mnt/Files/Unal_asignaturas/Len_progra2021-1/Ant-LR/ProyectoLen/ProyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
+package proyectoLen.src.antlr;
+
+// Generated from /mnt/Files/Unal_asignaturas/Len_progra2021-1/Ant-LR/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -109,14 +111,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_r; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterR(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitR(this);
-		}
 	}
 
 	public final RContext r() throws RecognitionException {
@@ -172,14 +166,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stmt; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterStmt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitStmt(this);
-		}
 	}
 
 	public final StmtContext stmt() throws RecognitionException {
@@ -238,14 +224,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_write; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterWrite(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitWrite(this);
-		}
 	}
 
 	public final WriteContext write() throws RecognitionException {
@@ -284,14 +262,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_read; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterRead(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitRead(this);
-		}
 	}
 
 	public final ReadContext read() throws RecognitionException {
@@ -332,14 +302,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_processOp; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterProcessOp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitProcessOp(this);
-		}
 	}
 
 	public final ProcessOpContext processOp() throws RecognitionException {
@@ -387,14 +349,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_createCh; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterCreateCh(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitCreateCh(this);
-		}
 	}
 
 	public final CreateChContext createCh() throws RecognitionException {
@@ -440,14 +394,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ifCond; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterIfCond(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitIfCond(this);
-		}
 	}
 
 	public final IfCondContext ifCond() throws RecognitionException {
@@ -503,14 +449,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_processInvoc; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterProcessInvoc(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitProcessInvoc(this);
-		}
 	}
 
 	public final ProcessInvocContext processInvoc() throws RecognitionException {
@@ -557,14 +495,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameters; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterParameters(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitParameters(this);
-		}
 	}
 
 	public final ParametersContext parameters() throws RecognitionException {
@@ -646,14 +576,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_processDecl; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterProcessDecl(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitProcessDecl(this);
-		}
 	}
 
 	public final ProcessDeclContext processDecl() throws RecognitionException {
@@ -718,14 +640,6 @@ public class PicalculusParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_oper; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).enterOper(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof PicalculusListener ) ((PicalculusListener)listener).exitOper(this);
-		}
 	}
 
 	public final OperContext oper() throws RecognitionException {
