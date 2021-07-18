@@ -1,31 +1,46 @@
 grammar Picalculus;
 
-@lexer::members {int variable = 0;}
-@parser::members {String s = "";}
+@header{
+package proyectoLen.src.antlr;
+}
+
+@parser::members {
+public static boolean SEMANTIC_ERROR = false;
+protected ArrayList<String> processScope = new ArrayList<String>();
+}
 
 prog : stmt* EOF;
 
-stmt : processOp
-	 | processInvoc 
-	 | processDecl 
-	 | oper; 
-
+stmt
+	: processOp			#opra
+	| processDecl 			#dcla
+	| oper 				#op;
 write : Can Hat Var;
 
 read : Can Par Var Par;
 
-processOp : Cap ( Con | Plus ) Cap;
+processOp : left=Cap ( Con | Plus ) right=Cap;
 
 createCh : Par Crech Can Par;
 
 ifCond : Iff Var (Eq | Neq) Var Then oper;
+parameters : (Can | Var) (Colon (Can | Var))*;
 
-processInvoc : Cap Par parameters Par;
-
-parameters :  ( Can Colon | Var Colon | Can | Var )*;
-
-// Declaracion de dlaraciones de procesos
-processDecl : Cap Par parameters Par Pd oper;
+/** 
+	Declaracion de dlaraciones de procesos
+	Esto podria ser usado para el manejo de erroes pero no se como funciona
+	{!process.contains($Cap.text)}?<fail={"TEST\n"}> 
+**/
+processDecl :
+	Cap Par parameters Par (Pd oper)? 
+	{if($Pd.text == null){
+		if(!processScope.contains($Cap.text)){
+			System.out.printf("Error line %d:%d -> Process %s not declared yet\n", $Cap.line, $Cap.pos, $Cap.text);
+			SEMANTIC_ERROR = true;
+		}
+	} else {
+		if(!processScope.contains($Cap.text)) processScope.add($Cap.text);
+	}};
 
 oper :( write | read  | createCh | ifCond ) 
     | oper Dot oper
@@ -34,6 +49,7 @@ oper :( write | read  | createCh | ifCond )
     | Cap
 	| Tao;
 
+/* Lexer tokens*/
 Cap      : [A-Z]+;
 Can      : [a-z];
 Var      : [a-z]'\'';
@@ -51,10 +67,7 @@ Plus     : '+';
 Crech    : '#';
 Par      : '(' | ')';
 ParA     : '[' | ']';
-Colon    : ',' -> skip;
+Colon    : ',';
 Ws       : [ \t\r\n]+ -> skip; 
 Bcom	   : '/*' .*? '*/' -> skip;
 Com      : '//' ~[\r\n]* '\r'? '\n' -> skip ;
-
-//A(a,b)::=(a/b'.a(c').&) if d' == e' then f/g'
-//X(y,v) ::= [a/b'.a(c')].![if d' == e' then [f/g'.a/b'.a(c')]].&
