@@ -13,7 +13,7 @@ prog : stmt* EOF;
 
 stmt
 	: processOp			#opra
-	| processDecl 			#dcla
+	| process 			#dcla
 	| oper 				#op;
 write : Can Hat Var;
 
@@ -31,7 +31,7 @@ parameters : (Can | Var) (Colon (Can | Var))*;
 	Esto podria ser usado para el manejo de erroes pero no se como funciona
 	{!process.contains($Cap.text)}?<fail={"TEST\n"}> 
 **/
-processDecl :
+process :
 	Cap Par parameters Par (Pd oper)? 
 	{if($Pd.text == null){
 		if(!processScope.contains($Cap.text)){

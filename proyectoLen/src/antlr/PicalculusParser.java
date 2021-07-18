@@ -1,4 +1,7 @@
 // Generated from /home/josteda99/Documents/CompetiveCode/Lenguajes/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
+
+package proyectoLen.src.antlr;
+
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -21,12 +24,12 @@ public class PicalculusParser extends Parser {
 		Ws=19, Bcom=20, Com=21;
 	public static final int
 		RULE_prog = 0, RULE_stmt = 1, RULE_write = 2, RULE_read = 3, RULE_processOp = 4, 
-		RULE_createCh = 5, RULE_ifCond = 6, RULE_parameters = 7, RULE_processDecl = 8, 
+		RULE_createCh = 5, RULE_ifCond = 6, RULE_parameters = 7, RULE_process = 8, 
 		RULE_oper = 9;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"prog", "stmt", "write", "read", "processOp", "createCh", "ifCond", "parameters", 
-			"processDecl", "oper"
+			"process", "oper"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -174,8 +177,8 @@ public class PicalculusParser extends Parser {
 		public OpraContext(StmtContext ctx) { copyFrom(ctx); }
 	}
 	public static class DclaContext extends StmtContext {
-		public ProcessDeclContext processDecl() {
-			return getRuleContext(ProcessDeclContext.class,0);
+		public ProcessContext process() {
+			return getRuleContext(ProcessContext.class,0);
 		}
 		public DclaContext(StmtContext ctx) { copyFrom(ctx); }
 	}
@@ -200,7 +203,7 @@ public class PicalculusParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(29);
-				processDecl();
+				process();
 				}
 				break;
 			case 3:
@@ -519,7 +522,7 @@ public class PicalculusParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ProcessDeclContext extends ParserRuleContext {
+	public static class ProcessContext extends ParserRuleContext {
 		public Token Cap;
 		public Token Pd;
 		public TerminalNode Cap() { return getToken(PicalculusParser.Cap, 0); }
@@ -534,21 +537,21 @@ public class PicalculusParser extends Parser {
 		public OperContext oper() {
 			return getRuleContext(OperContext.class,0);
 		}
-		public ProcessDeclContext(ParserRuleContext parent, int invokingState) {
+		public ProcessContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_processDecl; }
+		@Override public int getRuleIndex() { return RULE_process; }
 	}
 
-	public final ProcessDeclContext processDecl() throws RecognitionException {
-		ProcessDeclContext _localctx = new ProcessDeclContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_processDecl);
+	public final ProcessContext process() throws RecognitionException {
+		ProcessContext _localctx = new ProcessContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_process);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(66);
-			((ProcessDeclContext)_localctx).Cap = match(Cap);
+			((ProcessContext)_localctx).Cap = match(Cap);
 			setState(67);
 			match(Par);
 			setState(68);
@@ -561,19 +564,19 @@ public class PicalculusParser extends Parser {
 			if (_la==Pd) {
 				{
 				setState(70);
-				((ProcessDeclContext)_localctx).Pd = match(Pd);
+				((ProcessContext)_localctx).Pd = match(Pd);
 				setState(71);
 				oper(0);
 				}
 			}
 
-			if((((ProcessDeclContext)_localctx).Pd!=null?((ProcessDeclContext)_localctx).Pd.getText():null) == null){
-					if(!processScope.contains((((ProcessDeclContext)_localctx).Cap!=null?((ProcessDeclContext)_localctx).Cap.getText():null))){
-						System.out.printf("Error line %d:%d -> Process %s not declared yet\n", (((ProcessDeclContext)_localctx).Cap!=null?((ProcessDeclContext)_localctx).Cap.getLine():0), (((ProcessDeclContext)_localctx).Cap!=null?((ProcessDeclContext)_localctx).Cap.getCharPositionInLine():0), (((ProcessDeclContext)_localctx).Cap!=null?((ProcessDeclContext)_localctx).Cap.getText():null));
+			if((((ProcessContext)_localctx).Pd!=null?((ProcessContext)_localctx).Pd.getText():null) == null){
+					if(!processScope.contains((((ProcessContext)_localctx).Cap!=null?((ProcessContext)_localctx).Cap.getText():null))){
+						System.out.printf("Error line %d:%d -> Process %s not declared yet\n", (((ProcessContext)_localctx).Cap!=null?((ProcessContext)_localctx).Cap.getLine():0), (((ProcessContext)_localctx).Cap!=null?((ProcessContext)_localctx).Cap.getCharPositionInLine():0), (((ProcessContext)_localctx).Cap!=null?((ProcessContext)_localctx).Cap.getText():null));
 						SEMANTIC_ERROR = true;
 					}
 				} else {
-					if(!processScope.contains((((ProcessDeclContext)_localctx).Cap!=null?((ProcessDeclContext)_localctx).Cap.getText():null))) processScope.add((((ProcessDeclContext)_localctx).Cap!=null?((ProcessDeclContext)_localctx).Cap.getText():null));
+					if(!processScope.contains((((ProcessContext)_localctx).Cap!=null?((ProcessContext)_localctx).Cap.getText():null))) processScope.add((((ProcessContext)_localctx).Cap!=null?((ProcessContext)_localctx).Cap.getText():null));
 				}
 			}
 		}

@@ -55,7 +55,7 @@ processOp
 createCh
 ifCond
 parameters
-processDecl
+process
 oper
 
 
