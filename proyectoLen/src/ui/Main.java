@@ -18,8 +18,7 @@ public class Main {
 		PicalculusLexer lexer = new PicalculusLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		PicalculusParser parser = new PicalculusParser(tokens);
-
-
+		
 		tokens.fill();
 		parser.setBuildParseTree(true);
 		try {
@@ -29,7 +28,7 @@ public class Main {
 			if(!PicalculusParser.SEMANTIC_ERROR)
 				Trees.inspect(tree, parser);
 		} catch (RuntimeException e) {
-			// unsoported
+			/*Handlle error unecesary*/ 
 		}
 	}
 }
