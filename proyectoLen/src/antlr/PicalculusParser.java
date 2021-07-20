@@ -1,4 +1,4 @@
-// Generated from /mnt/Files/Unal_asignaturas/Len_progra2021-1/Ant-LR/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
+// Generated from /home/josteda99/Documents/CompetiveCode/Lenguajes/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
 
 package proyectoLen.src.antlr;
 
@@ -253,7 +253,7 @@ public class PicalculusParser extends Parser {
 				}
 				int value = varScope.getOrDefault((((WriteContext)_localctx).Var!=null?((WriteContext)_localctx).Var.getText():null), -1);
 				if(value == -1) {
-					varScope.put((((WriteContext)_localctx).Var!=null?((WriteContext)_localctx).Var.getText():null), FREE);
+					varScope.putIfAbsent((((WriteContext)_localctx).Var!=null?((WriteContext)_localctx).Var.getText():null), FREE);
 				}
 				// Usa la variable y luego la libera
 				varScope.compute((((WriteContext)_localctx).Var!=null?((WriteContext)_localctx).Var.getText():null), (k, v) -> v = FREE);
@@ -306,7 +306,7 @@ public class PicalculusParser extends Parser {
 				}
 				int value = varScope.getOrDefault((((ReadContext)_localctx).Var!=null?((ReadContext)_localctx).Var.getText():null), -1);
 				if(value == -1) {
-					varScope.put((((ReadContext)_localctx).Var!=null?((ReadContext)_localctx).Var.getText():null), FREE);
+					varScope.putIfAbsent((((ReadContext)_localctx).Var!=null?((ReadContext)_localctx).Var.getText():null), FREE);
 				} else if((value & FREE) != FREE) {
 					System.out.printf("Error in Line %d:%d -> Variable %s is not free\n", (((ReadContext)_localctx).Var!=null?((ReadContext)_localctx).Var.getLine():0), (((ReadContext)_localctx).Var!=null?((ReadContext)_localctx).Var.getCharPositionInLine():0), (((ReadContext)_localctx).Var!=null?((ReadContext)_localctx).Var.getText():null));
 					SEMANTIC_ERROR = true;
