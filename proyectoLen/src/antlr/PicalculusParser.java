@@ -1,4 +1,4 @@
-// Generated from /mnt/Files/Unal_asignaturas/Len_progra2021-1/Ant-LR/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
+// Generated from /home/josteda99/Documents/CompetiveCode/Lenguajes/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
 
 package proyectoLen.src.antlr;
 
@@ -23,14 +23,13 @@ public class PicalculusParser extends Parser {
 	public static final int
 		Cap=1, Can=2, Var=3, Iff=4, Dot=5, Then=6, Eq=7, Neq=8, Pd=9, Hat=10, 
 		Tao=11, Spam=12, Con=13, Plus=14, Crech=15, Par=16, ParA=17, Colon=18, 
-		Ws=19, Bcom=20, Com=21;
+		Ws=19, Bcom=20, Com=21, Empty=22;
 	public static final int
 		RULE_prog = 0, RULE_stmt = 1, RULE_write = 2, RULE_read = 3, RULE_createCh = 4, 
-		RULE_ifCond = 5, RULE_processOp = 6, RULE_parameters = 7, RULE_process = 8, 
-		RULE_oper = 9;
+		RULE_ifCond = 5, RULE_parameters = 6, RULE_process = 7, RULE_oper = 8;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"prog", "stmt", "write", "read", "createCh", "ifCond", "processOp", "parameters", 
+			"prog", "stmt", "write", "read", "createCh", "ifCond", "parameters", 
 			"process", "oper"
 		};
 	}
@@ -39,7 +38,8 @@ public class PicalculusParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, null, null, null, "'if'", "'.'", "'then'", "'=='", "'!='", "'::='", 
-			"'/'", "'&'", "'!'", "'|'", "'+'", "'#'", null, null, "','"
+			"'/'", "'&'", "'!'", "'|'", "'+'", "'#'", null, null, "','", null, null, 
+			null, "'0'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -47,7 +47,7 @@ public class PicalculusParser extends Parser {
 		return new String[] {
 			null, "Cap", "Can", "Var", "Iff", "Dot", "Then", "Eq", "Neq", "Pd", "Hat", 
 			"Tao", "Spam", "Con", "Plus", "Crech", "Par", "ParA", "Colon", "Ws", 
-			"Bcom", "Com"
+			"Bcom", "Com", "Empty"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -104,9 +104,10 @@ public class PicalculusParser extends Parser {
 	 * 1 -> libre
 	 * 2 -> binded
 	**/
-	protected HashMap<String, Integer> varScope = new HashMap<String, Integer>();
 	protected static int FREE = 1;
 	protected static int BINDED = 2;
+	protected HashMap<String, Integer> chanScope = new HashMap<String, Integer>();
+	protected HashMap<String, Integer> varScope = new HashMap<String, Integer>();
 
 	public PicalculusParser(TokenStream input) {
 		super(input);
@@ -114,7 +115,6 @@ public class PicalculusParser extends Parser {
 	}
 
 	public static class ProgContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(PicalculusParser.EOF, 0); }
 		public List<StmtContext> stmt() {
 			return getRuleContexts(StmtContext.class);
 		}
@@ -134,22 +134,20 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(23);
+			setState(21);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Cap) | (1L << Can) | (1L << Iff) | (1L << Tao) | (1L << Spam) | (1L << Par) | (1L << ParA))) != 0)) {
 				{
 				{
-				setState(20);
+				setState(18);
 				stmt();
 				}
 				}
-				setState(25);
+				setState(23);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(26);
-			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -170,6 +168,8 @@ public class PicalculusParser extends Parser {
 		public OperContext oper() {
 			return getRuleContext(OperContext.class,0);
 		}
+		public TerminalNode Dot() { return getToken(PicalculusParser.Dot, 0); }
+		public TerminalNode Empty() { return getToken(PicalculusParser.Empty, 0); }
 		public StmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -180,26 +180,32 @@ public class PicalculusParser extends Parser {
 		StmtContext _localctx = new StmtContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_stmt);
 		try {
-			setState(30);
+			setState(29);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(28);
+				setState(24);
 				process();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(29);
+				setState(25);
 				oper(0);
+				setState(26);
+				match(Dot);
+				setState(27);
+				match(Empty);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			varScope.forEach((k, v) -> System.out.println(k + " -> " + v));
+
+					varScope.forEach((k, v) -> System.out.println(k + " -> " + v));
+					varScope.replaceAll((k,v) -> FREE);
 		}
 		catch (RecognitionException re) {
 			_localctx.exception = re;
@@ -230,13 +236,13 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(32);
+			setState(31);
 			((WriteContext)_localctx).Can = match(Can);
-			setState(33);
+			setState(32);
 			match(Hat);
-			setState(34);
+			setState(33);
 			((WriteContext)_localctx).Var = match(Var);
-			if(!varScope.containsKey((((WriteContext)_localctx).Can!=null?((WriteContext)_localctx).Can.getText():null))) {
+			if(!chanScope.containsKey((((WriteContext)_localctx).Can!=null?((WriteContext)_localctx).Can.getText():null))) {
 					System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", (((WriteContext)_localctx).Can!=null?((WriteContext)_localctx).Can.getLine():0), (((WriteContext)_localctx).Can!=null?((WriteContext)_localctx).Can.getCharPositionInLine():0), (((WriteContext)_localctx).Can!=null?((WriteContext)_localctx).Can.getText():null));
 					SEMANTIC_ERROR = true;
 					throw new RuntimeException();
@@ -281,15 +287,15 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(37);
+			setState(36);
 			((ReadContext)_localctx).Can = match(Can);
+			setState(37);
+			match(Par);
 			setState(38);
-			match(Par);
-			setState(39);
 			((ReadContext)_localctx).Var = match(Var);
-			setState(40);
+			setState(39);
 			match(Par);
-			if(!varScope.containsKey((((ReadContext)_localctx).Can!=null?((ReadContext)_localctx).Can.getText():null))) {
+			if(!chanScope.containsKey((((ReadContext)_localctx).Can!=null?((ReadContext)_localctx).Can.getText():null))) {
 					System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", (((ReadContext)_localctx).Can!=null?((ReadContext)_localctx).Can.getLine():0), (((ReadContext)_localctx).Can!=null?((ReadContext)_localctx).Can.getCharPositionInLine():0), (((ReadContext)_localctx).Can!=null?((ReadContext)_localctx).Can.getText():null));
 					SEMANTIC_ERROR = true;
 					throw new RuntimeException();
@@ -338,16 +344,16 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(43);
+			setState(42);
 			match(Par);
-			setState(44);
+			setState(43);
 			match(Crech);
-			setState(45);
+			setState(44);
 			((CreateChContext)_localctx).Can = match(Can);
-			setState(46);
+			setState(45);
 			match(Par);
 
-					varScope.put((((CreateChContext)_localctx).Can!=null?((CreateChContext)_localctx).Can.getText():null), FREE);
+					chanScope.putIfAbsent((((CreateChContext)_localctx).Can!=null?((CreateChContext)_localctx).Can.getText():null), FREE);
 				
 			}
 		}
@@ -363,14 +369,16 @@ public class PicalculusParser extends Parser {
 	}
 
 	public static class IfCondContext extends ParserRuleContext {
+		public Token left;
+		public Token right;
 		public TerminalNode Iff() { return getToken(PicalculusParser.Iff, 0); }
-		public List<TerminalNode> Var() { return getTokens(PicalculusParser.Var); }
-		public TerminalNode Var(int i) {
-			return getToken(PicalculusParser.Var, i);
-		}
 		public TerminalNode Then() { return getToken(PicalculusParser.Then, 0); }
 		public OperContext oper() {
 			return getRuleContext(OperContext.class,0);
+		}
+		public List<TerminalNode> Var() { return getTokens(PicalculusParser.Var); }
+		public TerminalNode Var(int i) {
+			return getToken(PicalculusParser.Var, i);
 		}
 		public TerminalNode Eq() { return getToken(PicalculusParser.Eq, 0); }
 		public TerminalNode Neq() { return getToken(PicalculusParser.Neq, 0); }
@@ -387,11 +395,11 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(49);
+			setState(48);
 			match(Iff);
+			setState(49);
+			((IfCondContext)_localctx).left = match(Var);
 			setState(50);
-			match(Var);
-			setState(51);
 			_la = _input.LA(1);
 			if ( !(_la==Eq || _la==Neq) ) {
 			_errHandler.recoverInline(this);
@@ -401,71 +409,26 @@ public class PicalculusParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
+			setState(51);
+			((IfCondContext)_localctx).right = match(Var);
 			setState(52);
-			match(Var);
-			setState(53);
 			match(Then);
-			setState(54);
+			setState(53);
 			oper(0);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ProcessOpContext extends ParserRuleContext {
-		public Token left;
-		public Token right;
-		public List<TerminalNode> Cap() { return getTokens(PicalculusParser.Cap); }
-		public TerminalNode Cap(int i) {
-			return getToken(PicalculusParser.Cap, i);
-		}
-		public TerminalNode Con() { return getToken(PicalculusParser.Con, 0); }
-		public TerminalNode Plus() { return getToken(PicalculusParser.Plus, 0); }
-		public ProcessOpContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_processOp; }
-	}
-
-	public final ProcessOpContext processOp() throws RecognitionException {
-		ProcessOpContext _localctx = new ProcessOpContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_processOp);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(56);
-			((ProcessOpContext)_localctx).left = match(Cap);
-			setState(57);
-			_la = _input.LA(1);
-			if ( !(_la==Con || _la==Plus) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
-			setState(58);
-			((ProcessOpContext)_localctx).right = match(Cap);
-			if (!processScope.contains((((ProcessOpContext)_localctx).left!=null?((ProcessOpContext)_localctx).left.getText():null))) {
-						System.out.printf("Error line %d:%d -> Process %s not declared yet\n", (((ProcessOpContext)_localctx).left!=null?((ProcessOpContext)_localctx).left.getLine():0), (((ProcessOpContext)_localctx).left!=null?((ProcessOpContext)_localctx).left.getCharPositionInLine():0), (((ProcessOpContext)_localctx).left!=null?((ProcessOpContext)_localctx).left.getText():null));
-						SEMANTIC_ERROR = true;
-						throw new RuntimeException();
-					}
-					if (!processScope.contains((((ProcessOpContext)_localctx).right!=null?((ProcessOpContext)_localctx).right.getText():null))) {
-						System.out.printf("Error line %d:%d -> Process %s not declared yet\n", (((ProcessOpContext)_localctx).right!=null?((ProcessOpContext)_localctx).right.getLine():0), (((ProcessOpContext)_localctx).right!=null?((ProcessOpContext)_localctx).right.getCharPositionInLine():0), (((ProcessOpContext)_localctx).right!=null?((ProcessOpContext)_localctx).right.getText():null));
-						SEMANTIC_ERROR = true;
-						throw new RuntimeException();
-					}
+			int value = varScope.getOrDefault((((IfCondContext)_localctx).left!=null?((IfCondContext)_localctx).left.getText():null), -1);
+				if(value == -1 || (value & FREE) == FREE) {
+			      	System.out.printf("Error in Line %d:%d -> Variable %s is not free or not exist\n", (((IfCondContext)_localctx).left!=null?((IfCondContext)_localctx).left.getLine():0), (((IfCondContext)_localctx).left!=null?((IfCondContext)_localctx).left.getCharPositionInLine():0), (((IfCondContext)_localctx).left!=null?((IfCondContext)_localctx).left.getText():null));
+					SEMANTIC_ERROR = true;
+					throw new RuntimeException();
+				}
+				value = varScope.getOrDefault((((IfCondContext)_localctx).right!=null?((IfCondContext)_localctx).right.getText():null), -1);
+				if(value == -1 || (value & FREE) == FREE) {
+					System.out.printf("Error in Line %d:%d -> Variable %s is not free or not exist\n", (((IfCondContext)_localctx).right!=null?((IfCondContext)_localctx).right.getLine():0), (((IfCondContext)_localctx).right!=null?((IfCondContext)_localctx).right.getCharPositionInLine():0), (((IfCondContext)_localctx).right!=null?((IfCondContext)_localctx).right.getText():null));
+					SEMANTIC_ERROR = true;
+					throw new RuntimeException();
+				}
+				// se puede hacer comprobacion del if
+				
 			}
 		}
 		catch (RecognitionException re) {
@@ -481,10 +444,9 @@ public class PicalculusParser extends Parser {
 
 	public static class ParametersContext extends ParserRuleContext {
 		public Token Can;
-		public List<Token> para = new ArrayList<Token>();
+		public List<Token> cha = new ArrayList<Token>();
 		public Token Var;
-		public Token _tset151;
-		public Token _tset164;
+		public List<Token> var = new ArrayList<Token>();
 		public List<TerminalNode> Can() { return getTokens(PicalculusParser.Can); }
 		public TerminalNode Can(int i) {
 			return getToken(PicalculusParser.Can, i);
@@ -505,52 +467,69 @@ public class PicalculusParser extends Parser {
 
 	public final ParametersContext parameters() throws RecognitionException {
 		ParametersContext _localctx = new ParametersContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_parameters);
+		enterRule(_localctx, 12, RULE_parameters);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(61);
-			((ParametersContext)_localctx)._tset151 = _input.LT(1);
-			_la = _input.LA(1);
-			if ( !(_la==Can || _la==Var) ) {
-				((ParametersContext)_localctx)._tset151 = (Token)_errHandler.recoverInline(this);
+			setState(58);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case Can:
+				{
+				setState(56);
+				((ParametersContext)_localctx).Can = match(Can);
+				((ParametersContext)_localctx).cha.add(((ParametersContext)_localctx).Can);
+				}
+				break;
+			case Var:
+				{
+				setState(57);
+				((ParametersContext)_localctx).Var = match(Var);
+				((ParametersContext)_localctx).var.add(((ParametersContext)_localctx).Var);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
-			((ParametersContext)_localctx).para.add(((ParametersContext)_localctx)._tset151);
-			setState(66);
+			setState(67);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Colon) {
 				{
 				{
-				setState(62);
+				setState(60);
 				match(Colon);
 				setState(63);
-				((ParametersContext)_localctx)._tset164 = _input.LT(1);
-				_la = _input.LA(1);
-				if ( !(_la==Can || _la==Var) ) {
-					((ParametersContext)_localctx)._tset164 = (Token)_errHandler.recoverInline(this);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case Can:
+					{
+					setState(61);
+					((ParametersContext)_localctx).Can = match(Can);
+					((ParametersContext)_localctx).cha.add(((ParametersContext)_localctx).Can);
+					}
+					break;
+				case Var:
+					{
+					setState(62);
+					((ParametersContext)_localctx).Var = match(Var);
+					((ParametersContext)_localctx).var.add(((ParametersContext)_localctx).Var);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				((ParametersContext)_localctx).para.add(((ParametersContext)_localctx)._tset164);
 				}
 				}
-				setState(68);
+				setState(69);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
 			}
 			_ctx.stop = _input.LT(-1);
-			((ParametersContext)_localctx).para.forEach(x -> varScope.putIfAbsent(x.getText(), FREE));
+			((ParametersContext)_localctx).var.forEach(x -> varScope.putIfAbsent(x.getText(), FREE));
+						((ParametersContext)_localctx).cha.forEach(x -> chanScope.putIfAbsent(x.getText(), FREE));
 		}
 		catch (RecognitionException re) {
 			_localctx.exception = re;
@@ -567,9 +546,9 @@ public class PicalculusParser extends Parser {
 		public Token Cap;
 		public Token Pd;
 		public TerminalNode Cap() { return getToken(PicalculusParser.Cap, 0); }
-		public List<TerminalNode> Par() { return getTokens(PicalculusParser.Par); }
-		public TerminalNode Par(int i) {
-			return getToken(PicalculusParser.Par, i);
+		public List<TerminalNode> ParA() { return getTokens(PicalculusParser.ParA); }
+		public TerminalNode ParA(int i) {
+			return getToken(PicalculusParser.ParA, i);
 		}
 		public ParametersContext parameters() {
 			return getRuleContext(ParametersContext.class,0);
@@ -578,6 +557,8 @@ public class PicalculusParser extends Parser {
 		public OperContext oper() {
 			return getRuleContext(OperContext.class,0);
 		}
+		public TerminalNode Dot() { return getToken(PicalculusParser.Dot, 0); }
+		public TerminalNode Empty() { return getToken(PicalculusParser.Empty, 0); }
 		public ProcessContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -586,28 +567,32 @@ public class PicalculusParser extends Parser {
 
 	public final ProcessContext process() throws RecognitionException {
 		ProcessContext _localctx = new ProcessContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_process);
+		enterRule(_localctx, 14, RULE_process);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(69);
-			((ProcessContext)_localctx).Cap = match(Cap);
 			setState(70);
-			match(Par);
+			((ProcessContext)_localctx).Cap = match(Cap);
 			setState(71);
-			parameters();
+			match(ParA);
 			setState(72);
-			match(Par);
-			setState(75);
+			parameters();
+			setState(73);
+			match(ParA);
+			setState(79);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Pd) {
 				{
-				setState(73);
-				((ProcessContext)_localctx).Pd = match(Pd);
 				setState(74);
+				((ProcessContext)_localctx).Pd = match(Pd);
+				setState(75);
 				oper(0);
+				setState(76);
+				match(Dot);
+				setState(77);
+				match(Empty);
 				}
 			}
 
@@ -656,13 +641,12 @@ public class PicalculusParser extends Parser {
 		public OperContext oper(int i) {
 			return getRuleContext(OperContext.class,i);
 		}
-		public ProcessOpContext processOp() {
-			return getRuleContext(ProcessOpContext.class,0);
-		}
 		public TerminalNode Spam() { return getToken(PicalculusParser.Spam, 0); }
 		public TerminalNode Cap() { return getToken(PicalculusParser.Cap, 0); }
 		public TerminalNode Tao() { return getToken(PicalculusParser.Tao, 0); }
 		public TerminalNode Dot() { return getToken(PicalculusParser.Dot, 0); }
+		public TerminalNode Con() { return getToken(PicalculusParser.Con, 0); }
+		public TerminalNode Plus() { return getToken(PicalculusParser.Plus, 0); }
 		public OperContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -678,74 +662,70 @@ public class PicalculusParser extends Parser {
 		int _parentState = getState();
 		OperContext _localctx = new OperContext(_ctx, _parentState);
 		OperContext _prevctx = _localctx;
-		int _startState = 18;
-		enterRecursionRule(_localctx, 18, RULE_oper, _p);
+		int _startState = 16;
+		enterRecursionRule(_localctx, 16, RULE_oper, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(97);
+			setState(99);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
-			case 1:
+			switch (_input.LA(1)) {
+			case Can:
+			case Iff:
+			case Par:
 				{
-				setState(84);
+				setState(88);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 				case 1:
 					{
-					setState(80);
+					setState(84);
 					write();
 					}
 					break;
 				case 2:
 					{
-					setState(81);
+					setState(85);
 					read();
 					}
 					break;
 				case 3:
 					{
-					setState(82);
+					setState(86);
 					createCh();
 					}
 					break;
 				case 4:
 					{
-					setState(83);
+					setState(87);
 					ifCond();
 					}
 					break;
 				}
 				}
 				break;
-			case 2:
-				{
-				setState(86);
-				match(ParA);
-				setState(87);
-				oper(0);
-				setState(88);
-				match(ParA);
-				}
-				break;
-			case 3:
+			case ParA:
 				{
 				setState(90);
-				processOp();
+				match(ParA);
+				setState(91);
+				oper(0);
+				setState(92);
+				match(ParA);
 				}
 				break;
-			case 4:
+			case Spam:
 				{
-				setState(91);
+				setState(94);
 				match(Spam);
-				setState(92);
+				setState(95);
 				oper(3);
 				}
 				break;
-			case 5:
+			case Cap:
 				{
-				setState(93);
+				setState(96);
 				((OperContext)_localctx).Cap = match(Cap);
 
 						if(!processScope.contains((((OperContext)_localctx).Cap!=null?((OperContext)_localctx).Cap.getText():null))) {
@@ -755,38 +735,69 @@ public class PicalculusParser extends Parser {
 						}
 				}
 				break;
-			case 6:
+			case Tao:
 				{
-				setState(95);
+				setState(98);
 				match(Tao);
-				varScope.replaceAll((k,v) -> FREE);
 				}
 				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(104);
+			setState(112);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					{
-					_localctx = new OperContext(_parentctx, _parentState);
-					pushNewRecursionContext(_localctx, _startState, RULE_oper);
-					setState(99);
-					if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-					setState(100);
-					match(Dot);
-					setState(101);
-					oper(6);
+					setState(110);
+					_errHandler.sync(this);
+					switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
+					case 1:
+						{
+						_localctx = new OperContext(_parentctx, _parentState);
+						pushNewRecursionContext(_localctx, _startState, RULE_oper);
+						setState(101);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(102);
+						match(Dot);
+						setState(103);
+						oper(7);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new OperContext(_parentctx, _parentState);
+						pushNewRecursionContext(_localctx, _startState, RULE_oper);
+						setState(104);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(105);
+						match(Con);
+						setState(106);
+						oper(6);
+						}
+						break;
+					case 3:
+						{
+						_localctx = new OperContext(_parentctx, _parentState);
+						pushNewRecursionContext(_localctx, _startState, RULE_oper);
+						setState(107);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(108);
+						match(Plus);
+						setState(109);
+						oper(5);
+						}
+						break;
 					}
 					} 
 				}
-				setState(106);
+				setState(114);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			}
 			}
 		}
@@ -803,7 +814,7 @@ public class PicalculusParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 9:
+		case 8:
 			return oper_sempred((OperContext)_localctx, predIndex);
 		}
 		return true;
@@ -811,39 +822,45 @@ public class PicalculusParser extends Parser {
 	private boolean oper_sempred(OperContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
+			return precpred(_ctx, 6);
+		case 1:
 			return precpred(_ctx, 5);
+		case 2:
+			return precpred(_ctx, 4);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27n\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3"+
-		"\2\7\2\30\n\2\f\2\16\2\33\13\2\3\2\3\2\3\3\3\3\5\3!\n\3\3\4\3\4\3\4\3"+
-		"\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7"+
-		"\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\7\tC\n\t\f\t\16\tF\13\t\3"+
-		"\n\3\n\3\n\3\n\3\n\3\n\5\nN\n\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\5\13"+
-		"W\n\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\5\13d\n"+
-		"\13\3\13\3\13\3\13\7\13i\n\13\f\13\16\13l\13\13\3\13\2\3\24\f\2\4\6\b"+
-		"\n\f\16\20\22\24\2\5\3\2\t\n\3\2\17\20\3\2\4\5\2p\2\31\3\2\2\2\4 \3\2"+
-		"\2\2\6\"\3\2\2\2\b\'\3\2\2\2\n-\3\2\2\2\f\63\3\2\2\2\16:\3\2\2\2\20?\3"+
-		"\2\2\2\22G\3\2\2\2\24c\3\2\2\2\26\30\5\4\3\2\27\26\3\2\2\2\30\33\3\2\2"+
-		"\2\31\27\3\2\2\2\31\32\3\2\2\2\32\34\3\2\2\2\33\31\3\2\2\2\34\35\7\2\2"+
-		"\3\35\3\3\2\2\2\36!\5\22\n\2\37!\5\24\13\2 \36\3\2\2\2 \37\3\2\2\2!\5"+
-		"\3\2\2\2\"#\7\4\2\2#$\7\f\2\2$%\7\5\2\2%&\b\4\1\2&\7\3\2\2\2\'(\7\4\2"+
-		"\2()\7\22\2\2)*\7\5\2\2*+\7\22\2\2+,\b\5\1\2,\t\3\2\2\2-.\7\22\2\2./\7"+
-		"\21\2\2/\60\7\4\2\2\60\61\7\22\2\2\61\62\b\6\1\2\62\13\3\2\2\2\63\64\7"+
-		"\6\2\2\64\65\7\5\2\2\65\66\t\2\2\2\66\67\7\5\2\2\678\7\b\2\289\5\24\13"+
-		"\29\r\3\2\2\2:;\7\3\2\2;<\t\3\2\2<=\7\3\2\2=>\b\b\1\2>\17\3\2\2\2?D\t"+
-		"\4\2\2@A\7\24\2\2AC\t\4\2\2B@\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2E\21"+
-		"\3\2\2\2FD\3\2\2\2GH\7\3\2\2HI\7\22\2\2IJ\5\20\t\2JM\7\22\2\2KL\7\13\2"+
-		"\2LN\5\24\13\2MK\3\2\2\2MN\3\2\2\2NO\3\2\2\2OP\b\n\1\2P\23\3\2\2\2QV\b"+
-		"\13\1\2RW\5\6\4\2SW\5\b\5\2TW\5\n\6\2UW\5\f\7\2VR\3\2\2\2VS\3\2\2\2VT"+
-		"\3\2\2\2VU\3\2\2\2Wd\3\2\2\2XY\7\23\2\2YZ\5\24\13\2Z[\7\23\2\2[d\3\2\2"+
-		"\2\\d\5\16\b\2]^\7\16\2\2^d\5\24\13\5_`\7\3\2\2`d\b\13\1\2ab\7\r\2\2b"+
-		"d\b\13\1\2cQ\3\2\2\2cX\3\2\2\2c\\\3\2\2\2c]\3\2\2\2c_\3\2\2\2ca\3\2\2"+
-		"\2dj\3\2\2\2ef\f\7\2\2fg\7\7\2\2gi\5\24\13\bhe\3\2\2\2il\3\2\2\2jh\3\2"+
-		"\2\2jk\3\2\2\2k\25\3\2\2\2lj\3\2\2\2\t\31 DMVcj";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\30v\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\7\2\26"+
+		"\n\2\f\2\16\2\31\13\2\3\3\3\3\3\3\3\3\3\3\5\3 \n\3\3\4\3\4\3\4\3\4\3\4"+
+		"\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\b\3\b\5\b=\n\b\3\b\3\b\3\b\5\bB\n\b\7\bD\n\b\f\b\16\bG\13"+
+		"\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\tR\n\t\3\t\3\t\3\n\3\n\3\n\3"+
+		"\n\3\n\5\n[\n\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\nf\n\n\3\n\3\n\3"+
+		"\n\3\n\3\n\3\n\3\n\3\n\3\n\7\nq\n\n\f\n\16\nt\13\n\3\n\2\3\22\13\2\4\6"+
+		"\b\n\f\16\20\22\2\3\3\2\t\n\2|\2\27\3\2\2\2\4\37\3\2\2\2\6!\3\2\2\2\b"+
+		"&\3\2\2\2\n,\3\2\2\2\f\62\3\2\2\2\16<\3\2\2\2\20H\3\2\2\2\22e\3\2\2\2"+
+		"\24\26\5\4\3\2\25\24\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2"+
+		"\30\3\3\2\2\2\31\27\3\2\2\2\32 \5\20\t\2\33\34\5\22\n\2\34\35\7\7\2\2"+
+		"\35\36\7\30\2\2\36 \3\2\2\2\37\32\3\2\2\2\37\33\3\2\2\2 \5\3\2\2\2!\""+
+		"\7\4\2\2\"#\7\f\2\2#$\7\5\2\2$%\b\4\1\2%\7\3\2\2\2&\'\7\4\2\2\'(\7\22"+
+		"\2\2()\7\5\2\2)*\7\22\2\2*+\b\5\1\2+\t\3\2\2\2,-\7\22\2\2-.\7\21\2\2."+
+		"/\7\4\2\2/\60\7\22\2\2\60\61\b\6\1\2\61\13\3\2\2\2\62\63\7\6\2\2\63\64"+
+		"\7\5\2\2\64\65\t\2\2\2\65\66\7\5\2\2\66\67\7\b\2\2\678\5\22\n\289\b\7"+
+		"\1\29\r\3\2\2\2:=\7\4\2\2;=\7\5\2\2<:\3\2\2\2<;\3\2\2\2=E\3\2\2\2>A\7"+
+		"\24\2\2?B\7\4\2\2@B\7\5\2\2A?\3\2\2\2A@\3\2\2\2BD\3\2\2\2C>\3\2\2\2DG"+
+		"\3\2\2\2EC\3\2\2\2EF\3\2\2\2F\17\3\2\2\2GE\3\2\2\2HI\7\3\2\2IJ\7\23\2"+
+		"\2JK\5\16\b\2KQ\7\23\2\2LM\7\13\2\2MN\5\22\n\2NO\7\7\2\2OP\7\30\2\2PR"+
+		"\3\2\2\2QL\3\2\2\2QR\3\2\2\2RS\3\2\2\2ST\b\t\1\2T\21\3\2\2\2UZ\b\n\1\2"+
+		"V[\5\6\4\2W[\5\b\5\2X[\5\n\6\2Y[\5\f\7\2ZV\3\2\2\2ZW\3\2\2\2ZX\3\2\2\2"+
+		"ZY\3\2\2\2[f\3\2\2\2\\]\7\23\2\2]^\5\22\n\2^_\7\23\2\2_f\3\2\2\2`a\7\16"+
+		"\2\2af\5\22\n\5bc\7\3\2\2cf\b\n\1\2df\7\r\2\2eU\3\2\2\2e\\\3\2\2\2e`\3"+
+		"\2\2\2eb\3\2\2\2ed\3\2\2\2fr\3\2\2\2gh\f\b\2\2hi\7\7\2\2iq\5\22\n\tjk"+
+		"\f\7\2\2kl\7\17\2\2lq\5\22\n\bmn\f\6\2\2no\7\20\2\2oq\5\22\n\7pg\3\2\2"+
+		"\2pj\3\2\2\2pm\3\2\2\2qt\3\2\2\2rp\3\2\2\2rs\3\2\2\2s\23\3\2\2\2tr\3\2"+
+		"\2\2\f\27\37<AEQZepr";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
