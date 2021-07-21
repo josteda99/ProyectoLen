@@ -39,7 +39,7 @@ write
 	}
 	int value = varScope.getOrDefault($Var.text, -1);
 	if(value == -1) {
-		varScope.put($Var.text, FREE);
+		varScope.putIfAbsent($Var.text, FREE);
 	}
 	// Usa la variable y luego la libera
 	varScope.compute($Var.text, (k, v) -> v = FREE);};
@@ -52,7 +52,7 @@ read : Can Par Var Par
 	}
 	int value = varScope.getOrDefault($Var.text, -1);
 	if(value == -1) {
-		varScope.put($Var.text, FREE);
+		varScope.putIfAbsent($Var.text, FREE);
 	} else if((value & FREE) != FREE) {
 		System.out.printf("Error in Line %d:%d -> Variable %s is not free\n", $Var.line, $Var.pos, $Var.text);
 		SEMANTIC_ERROR = true;
