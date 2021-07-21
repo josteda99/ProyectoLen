@@ -2,9 +2,11 @@
 *	Bloque de
 *	Comentario
 **/
-//Y(x, z, y, u, f)
 
-//X(y, v)
-X(y, v) ::= (a/b'.a[c']).!(if d' == e' then (f/g'.a/b'.a[c'])).&
+// Y(x, z, y, u, f)
 
-(#j).&
+// X(y, v) ::= (a/b'.a[c']).!(if d' == e' then (f/g'.a/b'.a[c'])).&
+
+X(y, v) ::= (y/b'.y/a').v[z'].0
+
+y/c'.&

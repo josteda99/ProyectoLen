@@ -18,21 +18,24 @@ protected ArrayList<String> processScope = new ArrayList<String>();
  * 1 -> libre
  * 2 -> binded
 **/
-protected HashMap<String, Integer> varScope = new HashMap<String, Integer>();
 protected static int FREE = 1;
 protected static int BINDED = 2;
+protected HashMap<String, Integer> chanScope = new HashMap<String, Integer>();
+protected HashMap<String, Integer> varScope = new HashMap<String, Integer>();
 }
 
-prog : stmt* EOF;
+prog : stmt*;
 
 stmt
-	@after{varScope.forEach((k, v) -> System.out.println(k + " -> " + v));}
+	@after{
+		varScope.forEach((k, v) -> System.out.println(k + " -> " + v));
+		varScope.replaceAll((k,v) -> FREE);}
 	: process
-	| oper;
+	| oper Dot Empty;
 
 write
-	: Can Hat Var
-	{if(!varScope.containsKey($Can.text)) {
+	: Can Bar Var
+	{if(!chanScope.containsKey($Can.text)) {
 		System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", $Can.line, $Can.pos, $Can.text);
 		SEMANTIC_ERROR = true;
 		throw new RuntimeException();
@@ -45,7 +48,7 @@ write
 	varScope.compute($Var.text, (k, v) -> v = FREE);};
 
 read : Can Par Var Par
-	{if(!varScope.containsKey($Can.text)) {
+	{if(!chanScope.containsKey($Can.text)) {
 		System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", $Can.line, $Can.pos, $Can.text);
 		SEMANTIC_ERROR = true;
 		throw new RuntimeException();
@@ -64,33 +67,37 @@ read : Can Par Var Par
 
 createCh : Par Crech Can Par
 	{
-		varScope.put($Can.text, FREE);
+		chanScope.putIfAbsent($Can.text, FREE);
 	};
 
-ifCond : Iff Var (Eq | Neq) Var Then oper;
-
-processOp : left=Cap ( Con | Plus ) right=Cap
-		{if (!processScope.contains($left.text)) {
-			System.out.printf("Error line %d:%d -> Process %s not declared yet\n", $left.line, $left.pos, $left.text);
-			SEMANTIC_ERROR = true;
-			throw new RuntimeException();
-		}
-		if (!processScope.contains($right.text)) {
-			System.out.printf("Error line %d:%d -> Process %s not declared yet\n", $right.line, $right.pos, $right.text);
-			SEMANTIC_ERROR = true;
-			throw new RuntimeException();
-		}};
+ifCond : Iff left=Var (Eq | Neq) right=Var Then oper
+	{int value = varScope.getOrDefault($left.text, -1);
+	if(value == -1 || (value & FREE) == FREE) {
+      	System.out.printf("Error in Line %d:%d -> Variable %s is not free or not exist\n", $left.line, $left.pos, $left.text);
+		SEMANTIC_ERROR = true;
+		throw new RuntimeException();
+	}
+	value = varScope.getOrDefault($right.text, -1);
+	if(value == -1 || (value & FREE) == FREE) {
+		System.out.printf("Error in Line %d:%d -> Variable %s is not free or not exist\n", $right.line, $right.pos, $right.text);
+		SEMANTIC_ERROR = true;
+		throw new RuntimeException();
+	}
+	// se puede hacer comprobacion del if
+	};
 
 parameters 
-	@after {$para.forEach(x -> varScope.putIfAbsent(x.getText(), FREE));}
-	: para+=(Can | Var) (Colon para+=(Can | Var))*;
+	@after {$var.forEach(x -> varScope.putIfAbsent(x.getText(), FREE));
+			$cha.forEach(x -> chanScope.putIfAbsent(x.getText(), FREE));}
+	: (cha+=Can | var+=Var) (Colon (cha+=Can | var+=Var))*;
 
 /** 
 	Declaracion de dlaraciones de procesos
 	Esto podria ser usado para el manejo de erroes pero no se como funciona
 **/
+
 process :
-	Cap Par parameters Par (Pd oper)? 
+	Cap ParA parameters ParA (Pd oper Dot Empty)? 
 	{if($Pd.text == null) {
 		if(!processScope.contains($Cap.text)) {
 			System.out.printf("Error line %d:%d -> Process %s not declared yet\n", $Cap.line, $Cap.pos, $Cap.text);
@@ -100,39 +107,43 @@ process :
 		if(!processScope.contains($Cap.text)) processScope.add($Cap.text);
 	}};
 
-oper :( write | read  | createCh | ifCond )
+oper
+	:( write | read  | createCh | ifCond )
     | ParA oper ParA
-    | oper Dot oper
-	| processOp
-    | Spam oper
+    | oper Dot oper			
+	| oper Con oper
+    | oper Plus oper
+	| Spam oper
     | Cap	{
 		if(!processScope.contains($Cap.text)) {
 			System.out.printf("Error line %d:%d -> Process %s not declared yet\n", $Cap.line, $Cap.pos, $Cap.text);
 			SEMANTIC_ERROR = true;
 			throw new RuntimeException();
 		}}
-	| Tao 	{varScope.replaceAll((k,v) -> FREE);} // Librera todas las variables de varScope 
-	;
+	| Tao;
 
 /* Lexer tokens*/
-Cap      : [A-Z]+;
-Can      : [a-z];
-Var      : [a-z]'\'';
-Iff      : 'if';
-Dot      : '.';
-Then     : 'then';
-Eq       : '==';
-Neq      : '!=';
-Pd       : '::=';
-Hat      : '/';
-Tao      : '&';
-Spam     : '!';
-Con      : '|';
-Plus     : '+';
-Crech    : '#';
-Par      : '[' | ']';
-ParA     : '(' | ')';
-Colon    : ',';
-Ws       : [ \t\r\n]+ -> skip; 
-Bcom	   : '/*' .*? '*/' -> skip;
-Com		: '//' ~[\r\n]* '\r'? '\n' -> skip;
+Cap      	: [A-Z][a-zA-Z]*;
+
+Can      	: Letter+;
+fragment Letter : [a-z];
+Var      	: Letter+'\'';
+Iff      	: 'if';
+Dot      	: '.';
+Then     	: 'then';
+Eq       	: '==';
+Neq      	: '!=';
+Pd       	: '::=';
+Bar      	: '/';
+Tao      	: '&';
+Spam     	: '!';
+Con      	: '|';
+Plus     	: '+';
+Crech    	: '#';
+Par      	: '[' | ']';
+ParA     	: '(' | ')';
+Colon    	: ',';
+Ws       	: [ \t\r\n]+ -> skip; 
+Bcom		: '/*' .*? '*/' -> skip;
+Com			: '//' ~[\r\n]* '\r'? '\n' -> skip;
+Empty       : '0';
