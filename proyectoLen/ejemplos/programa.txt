@@ -5,6 +5,6 @@
 //Y(x, z, y, u, f)
 
 //X(y, v)
-X(y, v) ::= [a/b'.a(c')].![if d' == e' then [f/g'.a/b'.a(c')]].&
+X(y, v) ::= (a/b'.a[c']).!(if d' == e' then (f/g'.a/b'.a[c'])).&
 
 (#j).&

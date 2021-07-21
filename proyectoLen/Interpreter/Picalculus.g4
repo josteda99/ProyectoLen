@@ -27,8 +27,7 @@ prog : stmt* EOF;
 
 stmt
 	@after{varScope.forEach((k, v) -> System.out.println(k + " -> " + v));}
-	: processOp
-	| process
+	: process
 	| oper;
 
 write
@@ -102,8 +101,9 @@ process :
 	}};
 
 oper :( write | read  | createCh | ifCond )
-    | oper Dot oper
     | ParA oper ParA
+    | oper Dot oper
+	| processOp
     | Spam oper
     | Cap	{
 		if(!processScope.contains($Cap.text)) {
@@ -130,9 +130,9 @@ Spam     : '!';
 Con      : '|';
 Plus     : '+';
 Crech    : '#';
-Par      : '(' | ')';
-ParA     : '[' | ']';
+Par      : '[' | ']';
+ParA     : '(' | ')';
 Colon    : ',';
 Ws       : [ \t\r\n]+ -> skip; 
 Bcom	   : '/*' .*? '*/' -> skip;
-Com      : '//' ~[\r\n]* '\r'? '\n' -> skip ;
+Com		: '//' ~[\r\n]* '\r'? '\n' -> skip;
