@@ -3,10 +3,18 @@
 *	Comentario
 **/
 
-// Y(x, z, y, u, f)
+// Y(x, z, y, u, f) [#a]
 
 // X(y, v) ::= (a/b'.a[c']).!(if d' == e' then (f/g'.a/b'.a[c'])).&
 
-X(y, v) ::= (y/b'.y/a').v[z'].0
 
-y/c'.&
+X( y , v, a' -> ~Int) ::= (y/b'.y/a').v[z'].[#c -> ~Int].[#yy -> ~Int]
+Y( x , c, a' -> ~Int) ::= c/b'.x[b']
+
+
+new xx :: ~Int
+new y :: ~String
+run X(xx,"Hola", y)
+run Z(xx, "Mundo")
+run Y(xx)
+run	X(xx, "2")
