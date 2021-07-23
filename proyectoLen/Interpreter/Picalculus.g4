@@ -1,18 +1,19 @@
 grammar Picalculus;
 
-@parser::header{
+@parser::header {
 package proyectoLen.src.antlr;
 
 import java.util.HashMap;
+import proyectoLen.src.entity.Channel;
+import proyectoLen.src.entity.Process;
 }
 
-@lexer::header{
+@lexer::header {
 package proyectoLen.src.antlr;
 }
 
 @parser::members {
 public static boolean SEMANTIC_ERROR = false;
-protected ArrayList<String> processScope = new ArrayList<String>();
 /**
  * @varScope indicara si una variable o canal estan libre o no  por medio de una bitmask
  * 1 -> libre
@@ -22,20 +23,23 @@ protected static int FREE = 1;
 protected static int BINDED = 2;
 protected HashMap<String, Integer> chanScope = new HashMap<String, Integer>();
 protected HashMap<String, Integer> varScope = new HashMap<String, Integer>();
+protected HashMap<String, Channel> chanScopeGlobal = new HashMap<String, Channel>();
+protected HashMap<String, Process> processScope  = new HashMap<String, Process>();
+private static String aux = "";
 }
 
-prog : stmt*;
+prog
+	@after {
+		System.out.println(processScope.size());
+		System.out.println(chanScopeGlobal.size());}: stmt*;
 
 stmt
-	@after{
+	@after {
 		varScope.forEach((k, v) -> System.out.println(k + " -> " + v));
-		varScope.replaceAll((k,v) -> FREE);}
-	: process
-	| oper Dot Empty;
+		varScope.replaceAll((k,v) -> FREE);}: process | run | globalChan | oper Dot Empty;
 
-write
-	: Can Bar Var
-	{if(!chanScope.containsKey($Can.text)) {
+write:
+	Can Hat Var {if(!chanScope.containsKey($Can.text)) {
 		System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", $Can.line, $Can.pos, $Can.text);
 		SEMANTIC_ERROR = true;
 		throw new RuntimeException();
@@ -47,8 +51,8 @@ write
 	// Usa la variable y luego la libera
 	varScope.compute($Var.text, (k, v) -> v = FREE);};
 
-read : Can Par Var Par
-	{if(!chanScope.containsKey($Can.text)) {
+read:
+	Can Par Var Par {if(!chanScope.containsKey($Can.text)) {
 		System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", $Can.line, $Can.pos, $Can.text);
 		SEMANTIC_ERROR = true;
 		throw new RuntimeException();
@@ -65,13 +69,22 @@ read : Can Par Var Par
 	varScope.compute($Var.text, (k, v) -> v = BINDED);
 	};
 
-createCh : Par Crech Can Par
-	{
+createCh:
+	Par Crech Can Arrow Type Par {
 		chanScope.putIfAbsent($Can.text, FREE);
 	};
 
-ifCond : Iff left=Var (Eq | Neq) right=Var Then oper
-	{int value = varScope.getOrDefault($left.text, -1);
+globalChan:
+	'new' Can DoDot Type {
+		/* Agregar a los canales globales */
+		if($Type.text.equals("~Int"))
+		   chanScopeGlobal.putIfAbsent($Can.text,new Channel<Integer>());
+      	else 
+		   chanScopeGlobal.putIfAbsent($Can.text,new Channel<String>());
+	};
+
+ifCond:
+	Iff left = Var (Eq | Neq) right = Var Then oper {int value = varScope.getOrDefault($left.text, -1);
 	if(value == -1 || (value & FREE) == FREE) {
       	System.out.printf("Error in Line %d:%d -> Variable %s is not free or not exist\n", $left.line, $left.pos, $left.text);
 		SEMANTIC_ERROR = true;
@@ -86,36 +99,65 @@ ifCond : Iff left=Var (Eq | Neq) right=Var Then oper
 	// se puede hacer comprobacion del if
 	};
 
-parameters 
-	@after {$var.forEach(x -> varScope.putIfAbsent(x.getText(), FREE));
-			$cha.forEach(x -> chanScope.putIfAbsent(x.getText(), FREE));}
-	: (cha+=Can | var+=Var) (Colon (cha+=Can | var+=Var))*;
+parameters:
+	parameters Colon parameters
+	| Can {chanScope.putIfAbsent($Can.text, FREE); aux += $Can.text + ":";}
+	| Var Arrow Type {varScope.putIfAbsent($Var.text, FREE); aux += $Var.text + $Type.text + ":";};
 
-/** 
-	Declaracion de dlaraciones de procesos
-	Esto podria ser usado para el manejo de erroes pero no se como funciona
-**/
+/**
+ Declaracion de dlaraciones de procesos Esto podria ser usado para el manejo de erroes pero no se
+ como funciona
+ 
 
-process :
-	Cap ParA parameters ParA (Pd oper Dot Empty)? 
-	{if($Pd.text == null) {
-		if(!processScope.contains($Cap.text)) {
-			System.out.printf("Error line %d:%d -> Process %s not declared yet\n", $Cap.line, $Cap.pos, $Cap.text);
+ */
+
+process
+	locals[String name]
+	@after {chanScope.clear();
+			varScope.clear();
+			processScope.putIfAbsent($name, new Process(" AUN FALTA LA SECUENCIA" ,aux.substring(0, aux.length() - 1)));
+			aux = "";}:
+	Cap ParA parameters ParA Pd oper {
+		if(!processScope.containsKey($Cap.text)) {
+			$name = $Cap.text;
+		} else {
+			System.out.printf("Error in Line %d:%d -> Process %s already declared\n", $Cap.line, $Cap.pos, $Cap.text);
 			SEMANTIC_ERROR = true;
+			throw new RuntimeException();
 		}
-	} else {
-		if(!processScope.contains($Cap.text)) processScope.add($Cap.text);
-	}};
+	};
 
-oper
-	:( write | read  | createCh | ifCond )
-    | ParA oper ParA
-    | oper Dot oper			
+run
+	@after{/* Aca es donde se hace el llamdo a run de Process*/}
+	: 'run' Cap ParA variables ParA {	
+      if(!processScope.containsKey($Cap.text)) {
+         System.out.printf("Error in Line %d:%d -> Process %s no declared\n", $Cap.line, $Cap.pos, $Cap.text);
+         SEMANTIC_ERROR = true;
+         throw new RuntimeException();
+      }
+	};
+
+variables:
+	variables Colon variables
+	| Can {
+	   if(!chanScopeGlobal.containsKey($Can.text)){
+		   System.out.printf("Error in Line %d:%d -> Channel %s is not declared\n", $Can.line, $Can.pos, $Can.text);
+		   SEMANTIC_ERROR = true;
+		   throw new RuntimeException();
+	    } else{
+			aux += $Can.text + ":";
+      }}
+	| Int		{aux += $Int.int + ":";}
+	| String 	{aux += $String.text.substring(1, $String.text.length() - 1)+ ":";};
+
+oper: (write | read | createCh | ifCond)
+	| ParA oper ParA
+	| oper Dot oper
 	| oper Con oper
-    | oper Plus oper
+	| oper Plus oper
 	| Spam oper
-    | Cap	{
-		if(!processScope.contains($Cap.text)) {
+	| Cap {
+		if(!processScope.containsKey($Cap.text)) {
 			System.out.printf("Error line %d:%d -> Process %s not declared yet\n", $Cap.line, $Cap.pos, $Cap.text);
 			SEMANTIC_ERROR = true;
 			throw new RuntimeException();
@@ -123,27 +165,31 @@ oper
 	| Tao;
 
 /* Lexer tokens*/
-Cap      	: [A-Z][a-zA-Z]*;
-
-Can      	: Letter+;
-fragment Letter : [a-z];
-Var      	: Letter+'\'';
-Iff      	: 'if';
-Dot      	: '.';
-Then     	: 'then';
-Eq       	: '==';
-Neq      	: '!=';
-Pd       	: '::=';
-Bar      	: '/';
-Tao      	: '&';
-Spam     	: '!';
-Con      	: '|';
-Plus     	: '+';
-Crech    	: '#';
-Par      	: '[' | ']';
-ParA     	: '(' | ')';
-Colon    	: ',';
-Ws       	: [ \t\r\n]+ -> skip; 
-Bcom		: '/*' .*? '*/' -> skip;
-Com			: '//' ~[\r\n]* '\r'? '\n' -> skip;
-Empty       : '0';
+Cap: [A-Z][a-zA-Z]*;
+Can: Letter+;
+Var: Letter+ '\'';
+Iff: 'if';
+Dot: '.';
+Then: 'then';
+Eq: '==';
+Neq: '!=';
+Pd: '::=';
+Hat: '/';
+Tao: '&';
+Spam: '!';
+Con: '|';
+Plus: '+';
+Crech: '#';
+Par: '[' | ']';
+ParA: '(' | ')';
+Colon: ',';
+Ws: [ \t\r\n]+ -> skip;
+Bcom: '/*' .*? '*/' -> skip;
+Com: '//' ~[\r\n]* '\r'? '\n' -> skip;
+Empty: '0';
+DoDot: '::';
+Type: '~' ('Int' | 'String');
+Arrow: '->';
+Int: [0-9]+;
+String: '"' ('\\' ["\\] | ~["\\\r\n])* '"';
+fragment Letter: [a-z];
