@@ -31,15 +31,21 @@ private static String aux = "";
 prog
 	@after {
 		System.out.println(processScope.size());
-		System.out.println(chanScopeGlobal.size());}: stmt*;
+		System.out.println(chanScopeGlobal.size());}
+	: stmt*;
 
 stmt
 	@after {
 		varScope.forEach((k, v) -> System.out.println(k + " -> " + v));
-		varScope.replaceAll((k,v) -> FREE);}: process | run | globalChan | oper Dot Empty;
+		varScope.replaceAll((k,v) -> FREE);}
+	: process
+	| run
+	| globalChan
+	| oper Dot Empty;
 
-write:
-	Can Hat Var {if(!chanScope.containsKey($Can.text)) {
+write
+	: Can Hat Var
+	{if(!chanScope.containsKey($Can.text)) {
 		System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", $Can.line, $Can.pos, $Can.text);
 		SEMANTIC_ERROR = true;
 		throw new RuntimeException();
@@ -70,21 +76,22 @@ read:
 	};
 
 createCh:
-	Par Crech Can Arrow Type Par {
+	Par Crech Can Arrow Type Par 
+	{
 		chanScope.putIfAbsent($Can.text, FREE);
 	};
 
-globalChan:
-	'new' Can DoDot Type {
+globalChan : 'new' Can DoDot Type 
+	{
 		/* Agregar a los canales globales */
 		if($Type.text.equals("~Int"))
 		   chanScopeGlobal.putIfAbsent($Can.text,new Channel<Integer>());
       	else 
 		   chanScopeGlobal.putIfAbsent($Can.text,new Channel<String>());
 	};
-
-ifCond:
-	Iff left = Var (Eq | Neq) right = Var Then oper {int value = varScope.getOrDefault($left.text, -1);
+   
+ifCond : Iff left=Var (Eq | Neq) right=Var Then oper
+	{int value = varScope.getOrDefault($left.text, -1);
 	if(value == -1 || (value & FREE) == FREE) {
       	System.out.printf("Error in Line %d:%d -> Variable %s is not free or not exist\n", $left.line, $left.pos, $left.text);
 		SEMANTIC_ERROR = true;
@@ -165,31 +172,31 @@ oper: (write | read | createCh | ifCond)
 	| Tao;
 
 /* Lexer tokens*/
-Cap: [A-Z][a-zA-Z]*;
-Can: Letter+;
-Var: Letter+ '\'';
-Iff: 'if';
-Dot: '.';
-Then: 'then';
-Eq: '==';
-Neq: '!=';
-Pd: '::=';
-Hat: '/';
-Tao: '&';
-Spam: '!';
-Con: '|';
-Plus: '+';
-Crech: '#';
-Par: '[' | ']';
-ParA: '(' | ')';
-Colon: ',';
-Ws: [ \t\r\n]+ -> skip;
-Bcom: '/*' .*? '*/' -> skip;
-Com: '//' ~[\r\n]* '\r'? '\n' -> skip;
-Empty: '0';
-DoDot: '::';
-Type: '~' ('Int' | 'String');
-Arrow: '->';
-Int: [0-9]+;
-String: '"' ('\\' ["\\] | ~["\\\r\n])* '"';
-fragment Letter: [a-z];
+Cap      	: [A-Z][a-zA-Z]*;
+Can      	: Letter+;
+Var      	: Letter+'\'';
+Iff      	: 'if';
+Dot      	: '.';
+Then     	: 'then';
+Eq       	: '==';
+Neq      	: '!=';
+Pd       	: '::=';
+Hat      	: '/';
+Tao      	: '&';
+Spam     	: '!';
+Con      	: '|';
+Plus     	: '+';
+Crech    	: '#';
+Par      	: '[' | ']';
+ParA     	: '(' | ')';
+Colon    	: ',';
+Ws       	: [ \t\r\n]+ -> skip; 
+Bcom		: '/*' .*? '*/' -> skip;
+Com			: '//' ~[\r\n]* '\r'? '\n' -> skip;
+Empty       : '0';
+DoDot		: '::';
+Type		: '~'('Int' | 'String');
+Arrow    	: '->';
+Int			: [0-9]+;
+String		: '"' ('\\' ["\\] | ~["\\\r\n])* '"' ;
+fragment Letter	: [a-z];
