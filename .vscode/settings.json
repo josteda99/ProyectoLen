@@ -3,5 +3,6 @@
 		"lib/**/*.jar",
 		"proyectoLen/lib/antlr-4.7.2-complete.jar"
    ],
-   "spring-boot.ls.checkJVM": false
+   "spring-boot.ls.checkJVM": false,
+   "editor.tabSize": 3
 }

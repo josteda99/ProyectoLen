@@ -2,17 +2,25 @@ package proyectoLen.src.entity;
 
 import java.util.ArrayList;
 
-public class Channel<T> {
+public class Channel {
 	
-	protected ArrayList<T> path = new ArrayList<>();
+	protected ArrayList<Object> path = new ArrayList<>();
 
 	public Channel() {}
 
-	public T getValue() {
-		return path.get(0);
+	public Object getValue() {
+		return path.remove(0);
 	}
 
-	public void sendValue(T value) {
+	public void sendValue(Object value) {
 		path.add(value);
 	}
+
+   public ArrayList<Object> getPath() {
+      return this.path;
+   }
+
+   public void setPath(ArrayList<Object> path) {
+      this.path = path;
+   }
 }

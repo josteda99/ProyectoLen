@@ -1,8 +1,10 @@
-// Generated from /mnt/Files/Unal_asignaturas/Len_progra2021-1/Ant-LR/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
+// Generated from /home/josteda99/Documents/CompetiveCode/Lenguajes/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
 
 package proyectoLen.src.antlr;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import proyectoLen.src.entity.Channel;
 import proyectoLen.src.entity.Process;
 
@@ -111,7 +113,7 @@ public class PicalculusParser extends Parser {
 	protected static int BINDED = 2;
 	protected HashMap<String, Integer> chanScope = new HashMap<String, Integer>();
 	protected HashMap<String, Integer> varScope = new HashMap<String, Integer>();
-	protected HashMap<String, Channel> chanScopeGlobal = new HashMap<String, Channel>();
+	protected Map<String, Channel> chanScopeGlobal = new HashMap<String, Channel>();
 	protected HashMap<String, Process> processScope  = new HashMap<String, Process>();
 	private static String aux = "";
 
@@ -157,8 +159,13 @@ public class PicalculusParser extends Parser {
 			}
 			_ctx.stop = _input.LT(-1);
 
-					System.out.println(processScope.size());
-					System.out.println(chanScopeGlobal.size());
+					ArrayList<Object> t = chanScopeGlobal.get("y").getPath();
+			      for (Object object : t) {
+			         System.out.println(Objects.toString(object, null));
+			      }
+					// System.out.println(processScope.size());
+					// System.out.println(chanScopeGlobal.size());
+			      
 		}
 		catch (RecognitionException re) {
 			_localctx.exception = re;
@@ -433,9 +440,9 @@ public class PicalculusParser extends Parser {
 
 					/* Agregar a los canales globales */
 					if((((GlobalChanContext)_localctx).Type!=null?((GlobalChanContext)_localctx).Type.getText():null).equals("~Int"))
-					   chanScopeGlobal.putIfAbsent((((GlobalChanContext)_localctx).Can!=null?((GlobalChanContext)_localctx).Can.getText():null),new Channel<Integer>());
+					   chanScopeGlobal.putIfAbsent((((GlobalChanContext)_localctx).Can!=null?((GlobalChanContext)_localctx).Can.getText():null),new Channel());
 			      	else 
-					   chanScopeGlobal.putIfAbsent((((GlobalChanContext)_localctx).Can!=null?((GlobalChanContext)_localctx).Can.getText():null),new Channel<String>());
+					   chanScopeGlobal.putIfAbsent((((GlobalChanContext)_localctx).Can!=null?((GlobalChanContext)_localctx).Can.getText():null),new Channel());
 				
 			}
 		}
@@ -624,7 +631,9 @@ public class PicalculusParser extends Parser {
 
 	public static class ProcessContext extends ParserRuleContext {
 		public String name;
+		public String sec;
 		public Token Cap;
+		public OperContext oper;
 		public TerminalNode Cap() { return getToken(PicalculusParser.Cap, 0); }
 		public List<TerminalNode> ParA() { return getTokens(PicalculusParser.ParA); }
 		public TerminalNode ParA(int i) {
@@ -660,7 +669,7 @@ public class PicalculusParser extends Parser {
 			setState(93);
 			match(Pd);
 			setState(94);
-			oper(0);
+			((ProcessContext)_localctx).oper = oper(0);
 
 					if(!processScope.containsKey((((ProcessContext)_localctx).Cap!=null?((ProcessContext)_localctx).Cap.getText():null))) {
 						((ProcessContext)_localctx).name =  (((ProcessContext)_localctx).Cap!=null?((ProcessContext)_localctx).Cap.getText():null);
@@ -669,12 +678,13 @@ public class PicalculusParser extends Parser {
 						SEMANTIC_ERROR = true;
 						throw new RuntimeException();
 					}
+					((ProcessContext)_localctx).sec =  (((ProcessContext)_localctx).oper!=null?_input.getText(((ProcessContext)_localctx).oper.start,((ProcessContext)_localctx).oper.stop):null);
 				
 			}
 			_ctx.stop = _input.LT(-1);
 			chanScope.clear();
 						varScope.clear();
-						processScope.putIfAbsent(_localctx.name, new Process(" AUN FALTA LA SECUENCIA" ,aux.substring(0, aux.length() - 1)));
+						processScope.putIfAbsent(_localctx.name, new Process(_localctx.sec ,aux.substring(0, aux.length() - 1)));
 						aux = "";
 		}
 		catch (RecognitionException re) {
@@ -689,6 +699,8 @@ public class PicalculusParser extends Parser {
 	}
 
 	public static class RunContext extends ParserRuleContext {
+		public Process pro;
+		public Token c;
 		public Token Cap;
 		public TerminalNode Cap() { return getToken(PicalculusParser.Cap, 0); }
 		public List<TerminalNode> ParA() { return getTokens(PicalculusParser.ParA); }
@@ -726,10 +738,20 @@ public class PicalculusParser extends Parser {
 			         SEMANTIC_ERROR = true;
 			         throw new RuntimeException();
 			      }
+				  ((RunContext)_localctx).pro =  processScope.get((((RunContext)_localctx).Cap!=null?((RunContext)_localctx).Cap.getText():null));
+				  ((RunContext)_localctx).c =  ((RunContext)_localctx).Cap;
 				
 			}
 			_ctx.stop = _input.LT(-1);
-			/* Aca es donde se hace el llamdo a run de Process*/
+
+					if(!_localctx.pro.sameParameters(aux)) {
+						System.out.printf("Error in Line %d:%d -> Parameters don't match\n", _localctx.c.getLine(), _localctx.c.getCharPositionInLine());
+						SEMANTIC_ERROR = true;
+						throw new RuntimeException();
+					}
+					_localctx.pro.run(chanScopeGlobal, aux, false);
+					aux = "";
+					
 		}
 		catch (RecognitionException re) {
 			_localctx.exception = re;
@@ -790,7 +812,7 @@ public class PicalculusParser extends Parser {
 						   SEMANTIC_ERROR = true;
 						   throw new RuntimeException();
 					    } else{
-							aux += (((VariablesContext)_localctx).Can!=null?((VariablesContext)_localctx).Can.getText():null) + ":";
+							aux += (((VariablesContext)_localctx).Can!=null?((VariablesContext)_localctx).Can.getText():null) + "+:";
 				      }
 				}
 				break;
@@ -805,7 +827,7 @@ public class PicalculusParser extends Parser {
 				{
 				setState(109);
 				((VariablesContext)_localctx).String = match(String);
-				aux += (((VariablesContext)_localctx).String!=null?((VariablesContext)_localctx).String.getText():null).substring(1, (((VariablesContext)_localctx).String!=null?((VariablesContext)_localctx).String.getText():null).length() - 1)+ ":";
+				aux += (((VariablesContext)_localctx).String!=null?((VariablesContext)_localctx).String.getText():null).substring(1, (((VariablesContext)_localctx).String!=null?((VariablesContext)_localctx).String.getText():null).length()-1) + ":";
 				}
 				break;
 			default:

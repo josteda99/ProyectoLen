@@ -5,16 +5,23 @@
 
 // Y(x, z, y, u, f) [#a]
 
-// X(y, v) ::= (a/b'.a[c']).!(if d' == e' then (f/g'.a/b'.a[c'])).&
+
+//X( y , v, a' -> ~Int) ::= (y/b'.y/a').v[z'].[#c -> ~Int].[#yy -> ~Int]
+//Y( x , c, b' -> ~String) ::= c/b'.x[b']
+
+// secuencia [read(y, b').read(y, a')].send(v, z'). ...
+
+X(y, v' -> ~Int) ::= y/v'.&
+
+new xx :: ~String
+new y :: ~Int
+
+run X(y, 4)
+run X(y, 15)
+run X(y, 5)
 
 
-X( y , v, a' -> ~Int) ::= (y/b'.y/a').v[z'].[#c -> ~Int].[#yy -> ~Int]
-Y( x , c, a' -> ~Int) ::= c/b'.x[b']
+//run Y(xx, y, "Mundo")
+//run X(xx, y, 2)
 
 
-new xx :: ~Int
-new y :: ~String
-run X(xx,"Hola", y)
-run Z(xx, "Mundo")
-run Y(xx)
-run	X(xx, "2")

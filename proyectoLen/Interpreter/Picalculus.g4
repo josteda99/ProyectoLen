@@ -4,6 +4,8 @@ grammar Picalculus;
 package proyectoLen.src.antlr;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import proyectoLen.src.entity.Channel;
 import proyectoLen.src.entity.Process;
 }
@@ -23,15 +25,20 @@ protected static int FREE = 1;
 protected static int BINDED = 2;
 protected HashMap<String, Integer> chanScope = new HashMap<String, Integer>();
 protected HashMap<String, Integer> varScope = new HashMap<String, Integer>();
-protected HashMap<String, Channel> chanScopeGlobal = new HashMap<String, Channel>();
+protected Map<String, Channel> chanScopeGlobal = new HashMap<String, Channel>();
 protected HashMap<String, Process> processScope  = new HashMap<String, Process>();
 private static String aux = "";
 }
 
 prog
 	@after {
-		System.out.println(processScope.size());
-		System.out.println(chanScopeGlobal.size());}
+		ArrayList<Object> t = chanScopeGlobal.get("y").getPath();
+      for (Object object : t) {
+         System.out.println(Objects.toString(object, null));
+      }
+		// System.out.println(processScope.size());
+		// System.out.println(chanScopeGlobal.size());
+      }
 	: stmt*;
 
 stmt
@@ -85,9 +92,9 @@ globalChan : 'new' Can DoDot Type
 	{
 		/* Agregar a los canales globales */
 		if($Type.text.equals("~Int"))
-		   chanScopeGlobal.putIfAbsent($Can.text,new Channel<Integer>());
+		   chanScopeGlobal.putIfAbsent($Can.text,new Channel());
       	else 
-		   chanScopeGlobal.putIfAbsent($Can.text,new Channel<String>());
+		   chanScopeGlobal.putIfAbsent($Can.text,new Channel());
 	};
    
 ifCond : Iff left=Var (Eq | Neq) right=Var Then oper
@@ -119,10 +126,10 @@ parameters:
  */
 
 process
-	locals[String name]
+	locals[String name, String sec]
 	@after {chanScope.clear();
 			varScope.clear();
-			processScope.putIfAbsent($name, new Process(" AUN FALTA LA SECUENCIA" ,aux.substring(0, aux.length() - 1)));
+			processScope.putIfAbsent($name, new Process($sec ,aux.substring(0, aux.length() - 1)));
 			aux = "";}:
 	Cap ParA parameters ParA Pd oper {
 		if(!processScope.containsKey($Cap.text)) {
@@ -132,16 +139,28 @@ process
 			SEMANTIC_ERROR = true;
 			throw new RuntimeException();
 		}
+		$sec = $oper.text;
 	};
 
 run
-	@after{/* Aca es donde se hace el llamdo a run de Process*/}
+	locals[Process pro, Token c]
+	@after{
+		if(!$pro.sameParameters(aux)) {
+			System.out.printf("Error in Line %d:%d -> Parameters don't match\n", $c.getLine(), $c.getCharPositionInLine());
+			SEMANTIC_ERROR = true;
+			throw new RuntimeException();
+		}
+		$pro.run(chanScopeGlobal, aux, false);
+		aux = "";
+		}
 	: 'run' Cap ParA variables ParA {	
       if(!processScope.containsKey($Cap.text)) {
          System.out.printf("Error in Line %d:%d -> Process %s no declared\n", $Cap.line, $Cap.pos, $Cap.text);
          SEMANTIC_ERROR = true;
          throw new RuntimeException();
       }
+	  $pro = processScope.get($Cap.text);
+	  $c = $Cap;
 	};
 
 variables:
@@ -152,17 +171,17 @@ variables:
 		   SEMANTIC_ERROR = true;
 		   throw new RuntimeException();
 	    } else{
-			aux += $Can.text + ":";
+			aux += $Can.text + "+:";
       }}
-	| Int		{aux += $Int.int + ":";}
-	| String 	{aux += $String.text.substring(1, $String.text.length() - 1)+ ":";};
+	| Int			{aux += $Int.int + ":";}	
+	| String 	{aux += $String.text.substring(1, $String.text.length()-1) + ":";};
 
 oper: (write | read | createCh | ifCond)
 	| ParA oper ParA
-	| oper Dot oper
-	| oper Con oper
-	| oper Plus oper
-	| Spam oper
+	| oper Dot oper		// En est version no tiene su funcionalidad aun |, +, !
+	| oper Con oper		// NO
+	| oper Plus oper		// NO
+	| Spam oper				// NO
 	| Cap {
 		if(!processScope.containsKey($Cap.text)) {
 			System.out.printf("Error line %d:%d -> Process %s not declared yet\n", $Cap.line, $Cap.pos, $Cap.text);
