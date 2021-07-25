@@ -15,18 +15,24 @@
 
 
 X(y, v' -> ~Int, x' -> ~Int) ::= !(y/v'.y/x').&
-//X(y, v' -> ~Int) ::= y/v'.&
-//Y(y) ::= y[b'].&
+//X(y, v' -> ~Int) ::= y/v' | y[v'].&
+Y(y) ::= y[b'].&
 
 
 new xx :: ~String
-new y :: ~Int
+new y :: ~Int	
 
-run X(y, 400, 10) print
+run X(y, 400, 10) | Y(y) print
 //run Y(y) print
 // run X(y, 5)
 
 //run Y(xx, y, "Mundo")
 //run X(xx, y, 2)
+
+//Example 1
+
+//Example 2
+
+//Example 3
 
 state

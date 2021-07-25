@@ -5,6 +5,7 @@ package proyectoLen.src.antlr;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.ArrayList;
 import proyectoLen.src.entity.Channel;
 import proyectoLen.src.entity.Process;
 }
@@ -22,9 +23,12 @@ public static boolean SEMANTIC_ERROR = false;
 **/
 protected static int FREE = 1;
 protected static int BINDED = 2;
-protected HashMap<String, Integer> chanScope = new HashMap<String, Integer>();
-protected HashMap<String, Integer> varScope = new HashMap<String, Integer>();
-protected HashMap<String, Process> processScope  = new HashMap<String, Process>();
+protected HashMap<String, Process> processScope  = new HashMap<>();
+protected HashMap<String, Integer> chanScope = new HashMap<>();
+protected HashMap<String, Integer> varScope = new HashMap<>();
+protected ArrayList<Process> processAux = new ArrayList<>();
+protected ArrayList<String> nameAux = new ArrayList<>();
+protected ArrayList<String> parAux = new ArrayList<>();
 private static String aux = "";
 }
 
@@ -39,12 +43,12 @@ prog
       System.out.printf(" ##        ##      ##  ##  ##  ##    ##  ##   ##  ##  ##   ##   ##  ##  ##   ##  ##   ##\n");
       System.out.printf("####      ####      ####   ##  ##   #######    ####    #####   #######   #####    #####\n\n");
       System.out.printf("-----------------------Developed by Julio Quintero and Johan Daza-----------------------\n");
-      System.out.printf("---------------------------------------Version 1.0--------------------------------------\n");
+      System.out.printf("--------------------------------------Version 1.0.2-------------------------------------\n");
 	}
 	@after {
 		//Process.globalChannel.get("y").getPath().forEach(s -> System.out.println(s));
 		if($showState) Process.state();
-      }
+   }
 	: settings? stmt* state='state'?
 	{
 		$showState = $state != null;
@@ -63,7 +67,7 @@ stmt
 	: process
 	| run
 	| globalChan
-	| oper Dot Empty;
+   ;
 
 write
 	: Can Hat Var
@@ -152,30 +156,37 @@ process
 	};
 
 run
-	locals[Process pro, Token c, boolean toPrint]
-	@after{
-		if(!$pro.sameParameters(aux)) {
-			System.out.printf("Error in Line %d:%d -> Parameters don't match\n", $c.getLine(), $c.getCharPositionInLine());
-			SEMANTIC_ERROR = true;
-			throw new RuntimeException();
-		}
-		System.out.printf("Running Process %s ...\n", $c.getText());
-		$pro.run(aux, $toPrint);
-		aux = "";
-		}
-	: 'run' Cap ParA variables ParA print='print'? {	
+	locals[boolean toPrint]
+	@after{	
+		for(int i = 0; i < nameAux.size(); i++) {
+			System.out.printf("Running Process %s ...\n", nameAux.get(i));
+			processScope.get(nameAux.get(i)).run(parAux.get(i), $toPrint);
+		}}
+	: 'run' toRun print='print'? {
+	  $toPrint = $print != null;
+	};
+
+toRun
+	: toRun Con toRun
+	| Cap ParA variables ParA
+	{
       if(!processScope.containsKey($Cap.text)) {
          System.out.printf("Error in Line %d:%d -> Process %s no declared\n", $Cap.line, $Cap.pos, $Cap.text);
          SEMANTIC_ERROR = true;
          throw new RuntimeException();
       }
-	  $pro = processScope.get($Cap.text);
-	  $c = $Cap;
-	  $toPrint = $print != null;
+		if(!processScope.get($Cap.text).sameParameters(aux)) {
+			System.out.printf("Error in Line %d:%d -> Parameters don't match\n", $Cap.line, $Cap.pos);
+			SEMANTIC_ERROR = true;
+			throw new RuntimeException();
+		}
+		nameAux.add($Cap.text);
+		parAux.add(aux);
+		aux = "";
 	};
 
-variables:
-	variables Colon variables
+variables
+	: variables Colon variables
 	| Can {
 	   if(!Process.globalChannel.containsKey($Can.text)){
 		   System.out.printf("Error in Line %d:%d -> Channel %s is not declared\n", $Can.line, $Can.pos, $Can.text);
@@ -189,10 +200,10 @@ variables:
 
 oper: (write | read | createCh | ifCond)
 	| ParA oper ParA
-	| oper Dot oper		// En est version no tiene su funcionalidad aun |, +, !
+	| oper Dot oper		// En est version no tiene su funcionalidad aun |, +
 	| oper Con oper		// NO
 	| oper Plus oper		// NO
-	| Spam oper				// NO
+	| Spam oper				
 	| Cap {
 		if(!processScope.containsKey($Cap.text)) {
 			System.out.printf("Error line %d:%d -> Process %s not declared yet\n", $Cap.line, $Cap.pos, $Cap.text);
