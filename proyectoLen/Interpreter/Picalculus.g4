@@ -4,7 +4,6 @@ grammar Picalculus;
 package proyectoLen.src.antlr;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import proyectoLen.src.entity.Channel;
 import proyectoLen.src.entity.Process;
@@ -25,21 +24,31 @@ protected static int FREE = 1;
 protected static int BINDED = 2;
 protected HashMap<String, Integer> chanScope = new HashMap<String, Integer>();
 protected HashMap<String, Integer> varScope = new HashMap<String, Integer>();
-protected Map<String, Channel> chanScopeGlobal = new HashMap<String, Channel>();
 protected HashMap<String, Process> processScope  = new HashMap<String, Process>();
 private static String aux = "";
 }
 
 prog
+	@init{
+		System.out.printf("######    ####      ####     ##     ####       ####   ##   ##  ####     ##   ##   #####\n");
+      System.out.printf(" ##  ##    ##      ##  ##   ####     ##       ##  ##  ##   ##   ##      ##   ##  ##   ##\n");
+      System.out.printf(" ##  ##    ##     ##       ##  ##    ##      ##       ##   ##   ##      ##   ##  #\n");
+      System.out.printf(" #####     ##     ##       ##  ##    ##      ##       ##   ##   ##      ##   ##   #####\n");
+      System.out.printf(" ##        ##     ##       ######    ##   #  ##       ##   ##   ##   #  ##   ##       ##\n");
+      System.out.printf(" ##        ##      ##  ##  ##  ##    ##  ##   ##  ##  ##   ##   ##  ##  ##   ##  ##   ##\n");
+      System.out.printf("####      ####      ####   ##  ##   #######    ####    #####   #######   #####    #####\n\n");
+      System.out.printf("-----------------------Developed by Julio Quintero and Johan Daza-----------------------\n");
+      System.out.printf("---------------------------------------Version 1.0--------------------------------------\n");
+	}
 	@after {
-		ArrayList<Object> t = chanScopeGlobal.get("y").getPath();
-      for (Object object : t) {
-         System.out.println(Objects.toString(object, null));
       }
-		// System.out.println(processScope.size());
-		// System.out.println(chanScopeGlobal.size());
-      }
-	: stmt*;
+	: settings? stmt*;
+
+settings
+	: SpamSetting Int 
+	{
+		Process.spam = $Int.int;
+	};
 
 stmt
 	@after {
@@ -91,10 +100,7 @@ createCh:
 globalChan : 'new' Can DoDot Type 
 	{
 		/* Agregar a los canales globales */
-		if($Type.text.equals("~Int"))
-		   chanScopeGlobal.putIfAbsent($Can.text,new Channel());
-      	else 
-		   chanScopeGlobal.putIfAbsent($Can.text,new Channel());
+		Process.globalChannel.putIfAbsent($Can.text,new Channel($Type.text.replace("~","")));
 	};
    
 ifCond : Iff left=Var (Eq | Neq) right=Var Then oper
@@ -121,10 +127,7 @@ parameters:
 /**
  Declaracion de dlaraciones de procesos Esto podria ser usado para el manejo de erroes pero no se
  como funciona
- 
-
- */
-
+**/
 process
 	locals[String name, String sec]
 	@after {chanScope.clear();
@@ -143,17 +146,18 @@ process
 	};
 
 run
-	locals[Process pro, Token c]
+	locals[Process pro, Token c, boolean toPrint]
 	@after{
 		if(!$pro.sameParameters(aux)) {
 			System.out.printf("Error in Line %d:%d -> Parameters don't match\n", $c.getLine(), $c.getCharPositionInLine());
 			SEMANTIC_ERROR = true;
 			throw new RuntimeException();
 		}
-		$pro.run(chanScopeGlobal, aux, false);
+		System.out.printf("Running Process %s ...\n", $c.getText());
+		$pro.run(aux, $toPrint);
 		aux = "";
 		}
-	: 'run' Cap ParA variables ParA {	
+	: 'run' Cap ParA variables ParA print='print'? {	
       if(!processScope.containsKey($Cap.text)) {
          System.out.printf("Error in Line %d:%d -> Process %s no declared\n", $Cap.line, $Cap.pos, $Cap.text);
          SEMANTIC_ERROR = true;
@@ -161,12 +165,13 @@ run
       }
 	  $pro = processScope.get($Cap.text);
 	  $c = $Cap;
+	  $toPrint = $print != null;
 	};
 
 variables:
 	variables Colon variables
 	| Can {
-	   if(!chanScopeGlobal.containsKey($Can.text)){
+	   if(!Process.globalChannel.containsKey($Can.text)){
 		   System.out.printf("Error in Line %d:%d -> Channel %s is not declared\n", $Can.line, $Can.pos, $Can.text);
 		   SEMANTIC_ERROR = true;
 		   throw new RuntimeException();
@@ -190,6 +195,7 @@ oper: (write | read | createCh | ifCond)
 		}}
 	| Tao;
 
+
 /* Lexer tokens*/
 Cap      	: [A-Z][a-zA-Z]*;
 Can      	: Letter+;
@@ -210,12 +216,13 @@ Par      	: '[' | ']';
 ParA     	: '(' | ')';
 Colon    	: ',';
 Ws       	: [ \t\r\n]+ -> skip; 
-Bcom		: '/*' .*? '*/' -> skip;
+Bcom		   : '/*' .*? '*/' -> skip;
 Com			: '//' ~[\r\n]* '\r'? '\n' -> skip;
 Empty       : '0';
-DoDot		: '::';
-Type		: '~'('Int' | 'String');
+DoDot		   : '::';
+Type		   : '~'('Int' | 'String');
 Arrow    	: '->';
 Int			: [0-9]+;
 String		: '"' ('\\' ["\\] | ~["\\\r\n])* '"' ;
+SpamSetting : '%spam';
 fragment Letter	: [a-z];

@@ -1,6 +1,4 @@
 package proyectoLen.src.entity;
-
-import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -14,9 +12,10 @@ public class Process {
 	// parametro var a nombre - tipo
 	// c:a'~String:a
 	protected String listaParametros;
-	// read(c):send(a', c):
 	protected ArrayList<String> secuencia = new ArrayList<>();
 	protected HashMap<String, Object> localVar = new HashMap<>();
+	public static HashMap<String, Channel> globalChannel = new HashMap<>();
+	public static int spam = 10;
 
 	public Process() {
 	}
@@ -24,28 +23,31 @@ public class Process {
 	public Process(String secuencia, String listaParametros) {
 		String aux = secuencia.replaceAll("\\)[.]", ")").replaceAll("[.]\\(", "(");
 		String[] secArray = aux.split("[\\(||\\)]");
-      StringTokenizer lista = new StringTokenizer(listaParametros, ":");
+		StringTokenizer lista = new StringTokenizer(listaParametros, ":");
 		// Las variables locales del proceso
-      while (lista.hasMoreTokens()) {
-         String val = lista.nextToken();
-         if(val.contains("'") ){
-				if(val.contains("Int")){
-               this.localVar.put(val.split("~")[0], Integer.MAX_VALUE);
-            }else if(val.contains("String")){
-               this.localVar.put(val.split("~")[0], "");
-            }
-         }
-      }
+		while (lista.hasMoreTokens()) {
+			String val = lista.nextToken();
+			if (val.contains("'")) {
+				if (val.contains("Int")) {
+					this.localVar.put(val.split("~")[0], Integer.MAX_VALUE);
+				} else if (val.contains("String")) {
+					this.localVar.put(val.split("~")[0], "");
+				}
+			}
+		}
 		this.listaParametros = listaParametros;
 		// Agrega la secuencia del Proceso
 		for (String sec : secArray) {
-			if (sec.length() != 0)
+			if (sec.length() != 0) {
+				if (sec.contains(".&"))
+					sec = sec.replace(".&", "");
 				this.secuencia.add(sec);
+			}
 		}
-      System.out.println("LocalVar: " + this.localVar);
 	}
 
 	protected <T> void send(T value, Channel c) {
+      // System.out.println("Send...");
 		c.sendValue((Object) value);
 	}
 
@@ -60,8 +62,9 @@ public class Process {
 		// No supported yet
 	}
 
-	protected Channel crech() {
-		return new Channel();
+	protected Channel crech(String name) {
+      System.out.println("Create Channel...");
+		return new Channel(name);
 	}
 
 	// Mapea los parametros que recive de entrada con los parametros de la declaracion
@@ -80,38 +83,47 @@ public class Process {
       return channelMap;
 	}
 
-	public void run(Map<String, Channel> channels, String parameters, boolean toPrint) {
-      //    c[b']      	 c/f'		   if c' op s' 	[#z]
-		HashMap<String, Channel> aux = new HashMap<>(channels);
+	public void run(String parameters, boolean toPrint) {
+      //    c[b']      	 c/f'		   if c' op s' 	[#z -> ~Int]
 		HashMap<String, String> channelMap = mapParameter(parameters);
 		for(String s: secuencia) {
 			StringTokenizer token = new StringTokenizer(s, ".");
 			while (token.hasMoreTokens()) {
             String t = token.nextToken();
-            if(t.contains("/")){
+            if(t.contains("/")) {
+					// Llamada a funcion write usando los parametros
                String[] tAux = t.split("/");
-               send(localVar.get(tAux[1]), aux.get(channelMap.get(tAux[0])));
-            }
-            if(t.contains("#")){
-               // crech();
-               // System.out.println("entro a createchanel");
-            }
-            if(t.contains("'")){
-               // read(s, null);
-               // System.out.println("entro a read");
-            }
+					send(localVar.get(tAux[1]), globalChannel.get(channelMap.get(tAux[0])));
+					if (token.countTokens() == 0 && toPrint) {
+                  System.out.printf("Sent to Channel %s\n------------------------------\n",channelMap.get(tAux[0]));
+					}
+					continue;
+				} 
+            if(t.contains("#")) {
+					// Llamada a funcion crech usando los parametros
+               String[] tAux = t.split("->");
+               tAux[0] = tAux[0].replace("[","").replace("#","");
+					globalChannel.putIfAbsent(tAux[0], crech(tAux[0]));
+					channelMap.putIfAbsent(tAux[0], tAux[0]);
+               if (token.countTokens() == 0 && toPrint) {
+                  System.out.printf("Created Channel %s\n------------------------------\n",crech(tAux[0]).name);
+					}
+					continue;
+            }  
+            if(t.contains("'")) {
+					// Llamada a funcion read usando los parametros
+					String[] tAux = t.split("\\[");
+               tAux[1] = tAux[1].replace("'","").replace("]","");
+					read(tAux[1], globalChannel.get(channelMap.get(tAux[0])));
+               if (token.countTokens() == 0 && toPrint) {
+                  System.out.printf("Read value %s from Channel %s\n------------------------------\n",localVar.get(tAux[1]),channelMap.get(tAux[0]));
+					}
+					continue;
+				}
 			}
 		}
-      /* 
-				M.get(y) --> xx
-			sw
-				case
-					si el canal no esta en el mapa lo busca en los globales
-					this.read(b', channel)
-		*/
-		
-      System.out.println("llegaome");
-		// No supported yet
+
+      
 	}
 
 	public boolean sameParameters(String values) {
