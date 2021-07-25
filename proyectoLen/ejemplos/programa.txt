@@ -1,3 +1,5 @@
+%spam 20
+
 /** Esto es un 
 *	Bloque de
 *	Comentario
@@ -6,19 +8,24 @@
 // Y(x, z, y, u, f) [#a]
 
 
-//X( y , v, a' -> ~Int) ::= (y/b'.y/a').v[z'].[#c -> ~Int].[#yy -> ~Int]
+//X( y , v, a' -> ~Int) ::= !(y/b'.y/a').v[z'].[#c -> ~Int].[#yy -> ~Int]
 //Y( x , c, b' -> ~String) ::= c/b'.x[b']
 
 // secuencia [read(y, b').read(y, a')].send(v, z'). ...
 
+
+
+//X(y, v' -> ~Int) ::= y/v'
 X(y, v' -> ~Int) ::= y/v'.&
+Y(y) ::= y[b'].&
+
 
 new xx :: ~String
 new y :: ~Int
 
-run X(y, 4)
-run X(y, 15)
-run X(y, 5)
+run X(y, 400) print
+run Y(y) print
+// run X(y, 5)
 
 
 //run Y(xx, y, "Mundo")
