@@ -1,4 +1,4 @@
-// Generated from /mnt/Files/Unal_asignaturas/Len_progra2021-1/Ant-LR/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
+// Generated from /home/josteda99/Documents/CompetiveCode/Lenguajes/ProyectoLen/proyectoLen/Interpreter/Picalculus.g4 by ANTLR 4.7.2
 
 package proyectoLen.src.antlr;
 
@@ -24,10 +24,10 @@ public class PicalculusParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, Cap=4, Can=5, Var=6, Iff=7, Dot=8, Then=9, Eq=10, 
-		Neq=11, Pd=12, Hat=13, Tao=14, Spam=15, Con=16, Plus=17, Crech=18, Par=19, 
-		ParA=20, Colon=21, Ws=22, Bcom=23, Com=24, Empty=25, DoDot=26, Type=27, 
-		Arrow=28, Int=29, String=30, SpamSetting=31;
+		T__0=1, T__1=2, T__2=3, T__3=4, Cap=5, Can=6, Var=7, Iff=8, Dot=9, Then=10, 
+		Eq=11, Neq=12, Pd=13, Hat=14, Tao=15, Spam=16, Con=17, Plus=18, Crech=19, 
+		Par=20, ParA=21, Colon=22, Ws=23, Bcom=24, Com=25, Empty=26, DoDot=27, 
+		Type=28, Arrow=29, Int=30, String=31, SpamSetting=32;
 	public static final int
 		RULE_prog = 0, RULE_settings = 1, RULE_stmt = 2, RULE_write = 3, RULE_read = 4, 
 		RULE_createCh = 5, RULE_globalChan = 6, RULE_ifCond = 7, RULE_parameters = 8, 
@@ -42,19 +42,19 @@ public class PicalculusParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'new'", "'run'", "'print'", null, null, null, "'if'", "'.'", "'then'", 
-			"'=='", "'!='", "'::='", "'/'", "'&'", "'!'", "'|'", "'+'", "'#'", null, 
-			null, "','", null, null, null, "'0'", "'::'", null, "'->'", null, null, 
-			"'%spam'"
+			null, "'state'", "'new'", "'run'", "'print'", null, null, null, "'if'", 
+			"'.'", "'then'", "'=='", "'!='", "'::='", "'/'", "'&'", "'!'", "'|'", 
+			"'+'", "'#'", null, null, "','", null, null, null, "'0'", "'::'", null, 
+			"'->'", null, null, "'%spam'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, "Cap", "Can", "Var", "Iff", "Dot", "Then", "Eq", 
-			"Neq", "Pd", "Hat", "Tao", "Spam", "Con", "Plus", "Crech", "Par", "ParA", 
-			"Colon", "Ws", "Bcom", "Com", "Empty", "DoDot", "Type", "Arrow", "Int", 
-			"String", "SpamSetting"
+			null, null, null, null, null, "Cap", "Can", "Var", "Iff", "Dot", "Then", 
+			"Eq", "Neq", "Pd", "Hat", "Tao", "Spam", "Con", "Plus", "Crech", "Par", 
+			"ParA", "Colon", "Ws", "Bcom", "Com", "Empty", "DoDot", "Type", "Arrow", 
+			"Int", "String", "SpamSetting"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -123,6 +123,8 @@ public class PicalculusParser extends Parser {
 	}
 
 	public static class ProgContext extends ParserRuleContext {
+		public boolean showState;
+		public Token state;
 		public SettingsContext settings() {
 			return getRuleContext(SettingsContext.class,0);
 		}
@@ -169,7 +171,7 @@ public class PicalculusParser extends Parser {
 			setState(32);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << Cap) | (1L << Can) | (1L << Iff) | (1L << Tao) | (1L << Spam) | (1L << Par) | (1L << ParA))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << Cap) | (1L << Can) | (1L << Iff) | (1L << Tao) | (1L << Spam) | (1L << Par) | (1L << ParA))) != 0)) {
 				{
 				{
 				setState(29);
@@ -180,9 +182,24 @@ public class PicalculusParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
+			setState(36);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__0) {
+				{
+				setState(35);
+				((ProgContext)_localctx).state = match(T__0);
+				}
+			}
+
+
+					((ProgContext)_localctx).showState =  ((ProgContext)_localctx).state != null;
+				
 			}
 			_ctx.stop = _input.LT(-1);
 
+					//Process.globalChannel.get("y").getPath().forEach(s -> System.out.println(s));
+					if(_localctx.showState) Process.state();
 			      
 		}
 		catch (RecognitionException re) {
@@ -212,9 +229,9 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35);
+			setState(40);
 			match(SpamSetting);
-			setState(36);
+			setState(41);
 			((SettingsContext)_localctx).Int = match(Int);
 
 					Process.spam = (((SettingsContext)_localctx).Int!=null?Integer.valueOf(((SettingsContext)_localctx).Int.getText()):0);
@@ -257,38 +274,38 @@ public class PicalculusParser extends Parser {
 		StmtContext _localctx = new StmtContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_stmt);
 		try {
-			setState(46);
+			setState(51);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(39);
+				setState(44);
 				process();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(40);
+				setState(45);
 				run();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(41);
+				setState(46);
 				globalChan();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(42);
+				setState(47);
 				oper(0);
-				setState(43);
+				setState(48);
 				match(Dot);
-				setState(44);
+				setState(49);
 				match(Empty);
 				}
 				break;
@@ -327,11 +344,11 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(48);
+			setState(53);
 			((WriteContext)_localctx).Can = match(Can);
-			setState(49);
+			setState(54);
 			match(Hat);
-			setState(50);
+			setState(55);
 			((WriteContext)_localctx).Var = match(Var);
 			if(!chanScope.containsKey((((WriteContext)_localctx).Can!=null?((WriteContext)_localctx).Can.getText():null))) {
 					System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", (((WriteContext)_localctx).Can!=null?((WriteContext)_localctx).Can.getLine():0), (((WriteContext)_localctx).Can!=null?((WriteContext)_localctx).Can.getCharPositionInLine():0), (((WriteContext)_localctx).Can!=null?((WriteContext)_localctx).Can.getText():null));
@@ -378,13 +395,13 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53);
+			setState(58);
 			((ReadContext)_localctx).Can = match(Can);
-			setState(54);
+			setState(59);
 			match(Par);
-			setState(55);
+			setState(60);
 			((ReadContext)_localctx).Var = match(Var);
-			setState(56);
+			setState(61);
 			match(Par);
 			if(!chanScope.containsKey((((ReadContext)_localctx).Can!=null?((ReadContext)_localctx).Can.getText():null))) {
 					System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", (((ReadContext)_localctx).Can!=null?((ReadContext)_localctx).Can.getLine():0), (((ReadContext)_localctx).Can!=null?((ReadContext)_localctx).Can.getCharPositionInLine():0), (((ReadContext)_localctx).Can!=null?((ReadContext)_localctx).Can.getText():null));
@@ -437,17 +454,17 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(59);
-			match(Par);
-			setState(60);
-			match(Crech);
-			setState(61);
-			((CreateChContext)_localctx).Can = match(Can);
-			setState(62);
-			match(Arrow);
-			setState(63);
-			match(Type);
 			setState(64);
+			match(Par);
+			setState(65);
+			match(Crech);
+			setState(66);
+			((CreateChContext)_localctx).Can = match(Can);
+			setState(67);
+			match(Arrow);
+			setState(68);
+			match(Type);
+			setState(69);
 			match(Par);
 
 					chanScope.putIfAbsent((((CreateChContext)_localctx).Can!=null?((CreateChContext)_localctx).Can.getText():null), FREE);
@@ -483,17 +500,17 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(67);
-			match(T__0);
-			setState(68);
+			setState(72);
+			match(T__1);
+			setState(73);
 			((GlobalChanContext)_localctx).Can = match(Can);
-			setState(69);
+			setState(74);
 			match(DoDot);
-			setState(70);
+			setState(75);
 			((GlobalChanContext)_localctx).Type = match(Type);
 
 					/* Agregar a los canales globales */
-					Process.globalChannel.putIfAbsent((((GlobalChanContext)_localctx).Can!=null?((GlobalChanContext)_localctx).Can.getText():null),new Channel((((GlobalChanContext)_localctx).Type!=null?((GlobalChanContext)_localctx).Type.getText():null).replace("~","")));
+					Process.globalChannel.putIfAbsent((((GlobalChanContext)_localctx).Can!=null?((GlobalChanContext)_localctx).Can.getText():null),new Channel((((GlobalChanContext)_localctx).Type!=null?((GlobalChanContext)_localctx).Type.getText():null).replace("~",""), (((GlobalChanContext)_localctx).Can!=null?((GlobalChanContext)_localctx).Can.getText():null)));
 				
 			}
 		}
@@ -535,11 +552,11 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(73);
+			setState(78);
 			match(Iff);
-			setState(74);
+			setState(79);
 			((IfCondContext)_localctx).left = match(Var);
-			setState(75);
+			setState(80);
 			_la = _input.LA(1);
 			if ( !(_la==Eq || _la==Neq) ) {
 			_errHandler.recoverInline(this);
@@ -549,11 +566,11 @@ public class PicalculusParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(76);
+			setState(81);
 			((IfCondContext)_localctx).right = match(Var);
-			setState(77);
+			setState(82);
 			match(Then);
-			setState(78);
+			setState(83);
 			oper(0);
 			int value = varScope.getOrDefault((((IfCondContext)_localctx).left!=null?((IfCondContext)_localctx).left.getText():null), -1);
 				if(value == -1 || (value & FREE) == FREE) {
@@ -618,23 +635,23 @@ public class PicalculusParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(88);
+			setState(93);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Can:
 				{
-				setState(82);
+				setState(87);
 				((ParametersContext)_localctx).Can = match(Can);
 				chanScope.putIfAbsent((((ParametersContext)_localctx).Can!=null?((ParametersContext)_localctx).Can.getText():null), FREE); aux += (((ParametersContext)_localctx).Can!=null?((ParametersContext)_localctx).Can.getText():null) + ":";
 				}
 				break;
 			case Var:
 				{
-				setState(84);
+				setState(89);
 				((ParametersContext)_localctx).Var = match(Var);
-				setState(85);
+				setState(90);
 				match(Arrow);
-				setState(86);
+				setState(91);
 				((ParametersContext)_localctx).Type = match(Type);
 				varScope.putIfAbsent((((ParametersContext)_localctx).Var!=null?((ParametersContext)_localctx).Var.getText():null), FREE); aux += (((ParametersContext)_localctx).Var!=null?((ParametersContext)_localctx).Var.getText():null) + (((ParametersContext)_localctx).Type!=null?((ParametersContext)_localctx).Type.getText():null) + ":";
 				}
@@ -643,9 +660,9 @@ public class PicalculusParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(95);
+			setState(100);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -654,18 +671,18 @@ public class PicalculusParser extends Parser {
 					{
 					_localctx = new ParametersContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_parameters);
-					setState(90);
+					setState(95);
 					if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-					setState(91);
+					setState(96);
 					match(Colon);
-					setState(92);
+					setState(97);
 					parameters(4);
 					}
 					} 
 				}
-				setState(97);
+				setState(102);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			}
 			}
 		}
@@ -709,17 +726,17 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(98);
-			((ProcessContext)_localctx).Cap = match(Cap);
-			setState(99);
-			match(ParA);
-			setState(100);
-			parameters(0);
-			setState(101);
-			match(ParA);
-			setState(102);
-			match(Pd);
 			setState(103);
+			((ProcessContext)_localctx).Cap = match(Cap);
+			setState(104);
+			match(ParA);
+			setState(105);
+			parameters(0);
+			setState(106);
+			match(ParA);
+			setState(107);
+			match(Pd);
+			setState(108);
 			((ProcessContext)_localctx).oper = oper(0);
 
 					if(!processScope.containsKey((((ProcessContext)_localctx).Cap!=null?((ProcessContext)_localctx).Cap.getText():null))) {
@@ -776,23 +793,23 @@ public class PicalculusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(106);
-			match(T__1);
-			setState(107);
-			((RunContext)_localctx).Cap = match(Cap);
-			setState(108);
-			match(ParA);
-			setState(109);
-			variables(0);
-			setState(110);
-			match(ParA);
+			setState(111);
+			match(T__2);
 			setState(112);
+			((RunContext)_localctx).Cap = match(Cap);
+			setState(113);
+			match(ParA);
+			setState(114);
+			variables(0);
+			setState(115);
+			match(ParA);
+			setState(117);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__2) {
+			if (_la==T__3) {
 				{
-				setState(111);
-				((RunContext)_localctx).print = match(T__2);
+				setState(116);
+				((RunContext)_localctx).print = match(T__3);
 				}
 			}
 
@@ -865,12 +882,12 @@ public class PicalculusParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(123);
+			setState(128);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Can:
 				{
-				setState(117);
+				setState(122);
 				((VariablesContext)_localctx).Can = match(Can);
 
 					   if(!Process.globalChannel.containsKey((((VariablesContext)_localctx).Can!=null?((VariablesContext)_localctx).Can.getText():null))){
@@ -884,14 +901,14 @@ public class PicalculusParser extends Parser {
 				break;
 			case Int:
 				{
-				setState(119);
+				setState(124);
 				((VariablesContext)_localctx).Int = match(Int);
 				aux += (((VariablesContext)_localctx).Int!=null?Integer.valueOf(((VariablesContext)_localctx).Int.getText()):0) + ":";
 				}
 				break;
 			case String:
 				{
-				setState(121);
+				setState(126);
 				((VariablesContext)_localctx).String = match(String);
 				aux += (((VariablesContext)_localctx).String!=null?((VariablesContext)_localctx).String.getText():null).substring(1, (((VariablesContext)_localctx).String!=null?((VariablesContext)_localctx).String.getText():null).length()-1) + ":";
 				}
@@ -900,9 +917,9 @@ public class PicalculusParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(130);
+			setState(135);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -911,18 +928,18 @@ public class PicalculusParser extends Parser {
 					{
 					_localctx = new VariablesContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_variables);
-					setState(125);
+					setState(130);
 					if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-					setState(126);
+					setState(131);
 					match(Colon);
-					setState(127);
+					setState(132);
 					variables(5);
 					}
 					} 
 				}
-				setState(132);
+				setState(137);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
 			}
 			}
 		}
@@ -988,37 +1005,37 @@ public class PicalculusParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(149);
+			setState(154);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Can:
 			case Iff:
 			case Par:
 				{
-				setState(138);
+				setState(143);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 				case 1:
 					{
-					setState(134);
+					setState(139);
 					write();
 					}
 					break;
 				case 2:
 					{
-					setState(135);
+					setState(140);
 					read();
 					}
 					break;
 				case 3:
 					{
-					setState(136);
+					setState(141);
 					createCh();
 					}
 					break;
 				case 4:
 					{
-					setState(137);
+					setState(142);
 					ifCond();
 					}
 					break;
@@ -1027,25 +1044,25 @@ public class PicalculusParser extends Parser {
 				break;
 			case ParA:
 				{
-				setState(140);
+				setState(145);
 				match(ParA);
-				setState(141);
+				setState(146);
 				oper(0);
-				setState(142);
+				setState(147);
 				match(ParA);
 				}
 				break;
 			case Spam:
 				{
-				setState(144);
+				setState(149);
 				match(Spam);
-				setState(145);
+				setState(150);
 				oper(3);
 				}
 				break;
 			case Cap:
 				{
-				setState(146);
+				setState(151);
 				((OperContext)_localctx).Cap = match(Cap);
 
 						if(!processScope.containsKey((((OperContext)_localctx).Cap!=null?((OperContext)_localctx).Cap.getText():null))) {
@@ -1057,7 +1074,7 @@ public class PicalculusParser extends Parser {
 				break;
 			case Tao:
 				{
-				setState(148);
+				setState(153);
 				match(Tao);
 				}
 				break;
@@ -1065,26 +1082,26 @@ public class PicalculusParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(162);
+			setState(167);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,12,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(160);
+					setState(165);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 					case 1:
 						{
 						_localctx = new OperContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_oper);
-						setState(151);
+						setState(156);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(152);
+						setState(157);
 						match(Dot);
-						setState(153);
+						setState(158);
 						oper(7);
 						}
 						break;
@@ -1092,11 +1109,11 @@ public class PicalculusParser extends Parser {
 						{
 						_localctx = new OperContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_oper);
-						setState(154);
+						setState(159);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(155);
+						setState(160);
 						match(Con);
-						setState(156);
+						setState(161);
 						oper(6);
 						}
 						break;
@@ -1104,20 +1121,20 @@ public class PicalculusParser extends Parser {
 						{
 						_localctx = new OperContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_oper);
-						setState(157);
+						setState(162);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(158);
+						setState(163);
 						match(Plus);
-						setState(159);
+						setState(164);
 						oper(5);
 						}
 						break;
 					}
 					} 
 				}
-				setState(164);
+				setState(169);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,12,_ctx);
 			}
 			}
 		}
@@ -1170,54 +1187,57 @@ public class PicalculusParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3!\u00a8\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\"\u00ad\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\5\2\36\n\2\3\2\7\2!\n\2\f\2\16\2$\13"+
-		"\2\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\61\n\4\3\5\3\5\3\5"+
-		"\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\b\3"+
-		"\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n"+
-		"\3\n\3\n\5\n[\n\n\3\n\3\n\3\n\7\n`\n\n\f\n\16\nc\13\n\3\13\3\13\3\13\3"+
-		"\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\5\fs\n\f\3\f\3\f\3\r\3"+
-		"\r\3\r\3\r\3\r\3\r\3\r\5\r~\n\r\3\r\3\r\3\r\7\r\u0083\n\r\f\r\16\r\u0086"+
-		"\13\r\3\16\3\16\3\16\3\16\3\16\5\16\u008d\n\16\3\16\3\16\3\16\3\16\3\16"+
-		"\3\16\3\16\3\16\3\16\5\16\u0098\n\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16"+
-		"\3\16\3\16\7\16\u00a3\n\16\f\16\16\16\u00a6\13\16\3\16\2\5\22\30\32\17"+
-		"\2\4\6\b\n\f\16\20\22\24\26\30\32\2\3\3\2\f\r\2\u00af\2\35\3\2\2\2\4%"+
-		"\3\2\2\2\6\60\3\2\2\2\b\62\3\2\2\2\n\67\3\2\2\2\f=\3\2\2\2\16E\3\2\2\2"+
-		"\20K\3\2\2\2\22Z\3\2\2\2\24d\3\2\2\2\26l\3\2\2\2\30}\3\2\2\2\32\u0097"+
-		"\3\2\2\2\34\36\5\4\3\2\35\34\3\2\2\2\35\36\3\2\2\2\36\"\3\2\2\2\37!\5"+
-		"\6\4\2 \37\3\2\2\2!$\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#\3\3\2\2\2$\"\3\2\2"+
-		"\2%&\7!\2\2&\'\7\37\2\2\'(\b\3\1\2(\5\3\2\2\2)\61\5\24\13\2*\61\5\26\f"+
-		"\2+\61\5\16\b\2,-\5\32\16\2-.\7\n\2\2./\7\33\2\2/\61\3\2\2\2\60)\3\2\2"+
-		"\2\60*\3\2\2\2\60+\3\2\2\2\60,\3\2\2\2\61\7\3\2\2\2\62\63\7\7\2\2\63\64"+
-		"\7\17\2\2\64\65\7\b\2\2\65\66\b\5\1\2\66\t\3\2\2\2\678\7\7\2\289\7\25"+
-		"\2\29:\7\b\2\2:;\7\25\2\2;<\b\6\1\2<\13\3\2\2\2=>\7\25\2\2>?\7\24\2\2"+
-		"?@\7\7\2\2@A\7\36\2\2AB\7\35\2\2BC\7\25\2\2CD\b\7\1\2D\r\3\2\2\2EF\7\3"+
-		"\2\2FG\7\7\2\2GH\7\34\2\2HI\7\35\2\2IJ\b\b\1\2J\17\3\2\2\2KL\7\t\2\2L"+
-		"M\7\b\2\2MN\t\2\2\2NO\7\b\2\2OP\7\13\2\2PQ\5\32\16\2QR\b\t\1\2R\21\3\2"+
-		"\2\2ST\b\n\1\2TU\7\7\2\2U[\b\n\1\2VW\7\b\2\2WX\7\36\2\2XY\7\35\2\2Y[\b"+
-		"\n\1\2ZS\3\2\2\2ZV\3\2\2\2[a\3\2\2\2\\]\f\5\2\2]^\7\27\2\2^`\5\22\n\6"+
-		"_\\\3\2\2\2`c\3\2\2\2a_\3\2\2\2ab\3\2\2\2b\23\3\2\2\2ca\3\2\2\2de\7\6"+
-		"\2\2ef\7\26\2\2fg\5\22\n\2gh\7\26\2\2hi\7\16\2\2ij\5\32\16\2jk\b\13\1"+
-		"\2k\25\3\2\2\2lm\7\4\2\2mn\7\6\2\2no\7\26\2\2op\5\30\r\2pr\7\26\2\2qs"+
-		"\7\5\2\2rq\3\2\2\2rs\3\2\2\2st\3\2\2\2tu\b\f\1\2u\27\3\2\2\2vw\b\r\1\2"+
-		"wx\7\7\2\2x~\b\r\1\2yz\7\37\2\2z~\b\r\1\2{|\7 \2\2|~\b\r\1\2}v\3\2\2\2"+
-		"}y\3\2\2\2}{\3\2\2\2~\u0084\3\2\2\2\177\u0080\f\6\2\2\u0080\u0081\7\27"+
-		"\2\2\u0081\u0083\5\30\r\7\u0082\177\3\2\2\2\u0083\u0086\3\2\2\2\u0084"+
-		"\u0082\3\2\2\2\u0084\u0085\3\2\2\2\u0085\31\3\2\2\2\u0086\u0084\3\2\2"+
-		"\2\u0087\u008c\b\16\1\2\u0088\u008d\5\b\5\2\u0089\u008d\5\n\6\2\u008a"+
-		"\u008d\5\f\7\2\u008b\u008d\5\20\t\2\u008c\u0088\3\2\2\2\u008c\u0089\3"+
-		"\2\2\2\u008c\u008a\3\2\2\2\u008c\u008b\3\2\2\2\u008d\u0098\3\2\2\2\u008e"+
-		"\u008f\7\26\2\2\u008f\u0090\5\32\16\2\u0090\u0091\7\26\2\2\u0091\u0098"+
-		"\3\2\2\2\u0092\u0093\7\21\2\2\u0093\u0098\5\32\16\5\u0094\u0095\7\6\2"+
-		"\2\u0095\u0098\b\16\1\2\u0096\u0098\7\20\2\2\u0097\u0087\3\2\2\2\u0097"+
-		"\u008e\3\2\2\2\u0097\u0092\3\2\2\2\u0097\u0094\3\2\2\2\u0097\u0096\3\2"+
-		"\2\2\u0098\u00a4\3\2\2\2\u0099\u009a\f\b\2\2\u009a\u009b\7\n\2\2\u009b"+
-		"\u00a3\5\32\16\t\u009c\u009d\f\7\2\2\u009d\u009e\7\22\2\2\u009e\u00a3"+
-		"\5\32\16\b\u009f\u00a0\f\6\2\2\u00a0\u00a1\7\23\2\2\u00a1\u00a3\5\32\16"+
-		"\7\u00a2\u0099\3\2\2\2\u00a2\u009c\3\2\2\2\u00a2\u009f\3\2\2\2\u00a3\u00a6"+
-		"\3\2\2\2\u00a4\u00a2\3\2\2\2\u00a4\u00a5\3\2\2\2\u00a5\33\3\2\2\2\u00a6"+
-		"\u00a4\3\2\2\2\16\35\"\60Zar}\u0084\u008c\u0097\u00a2\u00a4";
+		"\2\3\2\5\2\'\n\2\3\2\3\2\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5"+
+		"\4\66\n\4\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7"+
+		"\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3"+
+		"\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n`\n\n\3\n\3\n\3\n\7\ne\n\n\f\n\16\n"+
+		"h\13\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f"+
+		"\5\fx\n\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u0083\n\r\3\r\3\r\3"+
+		"\r\7\r\u0088\n\r\f\r\16\r\u008b\13\r\3\16\3\16\3\16\3\16\3\16\5\16\u0092"+
+		"\n\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\5\16\u009d\n\16\3\16"+
+		"\3\16\3\16\3\16\3\16\3\16\3\16\3\16\3\16\7\16\u00a8\n\16\f\16\16\16\u00ab"+
+		"\13\16\3\16\2\5\22\30\32\17\2\4\6\b\n\f\16\20\22\24\26\30\32\2\3\3\2\r"+
+		"\16\2\u00b5\2\35\3\2\2\2\4*\3\2\2\2\6\65\3\2\2\2\b\67\3\2\2\2\n<\3\2\2"+
+		"\2\fB\3\2\2\2\16J\3\2\2\2\20P\3\2\2\2\22_\3\2\2\2\24i\3\2\2\2\26q\3\2"+
+		"\2\2\30\u0082\3\2\2\2\32\u009c\3\2\2\2\34\36\5\4\3\2\35\34\3\2\2\2\35"+
+		"\36\3\2\2\2\36\"\3\2\2\2\37!\5\6\4\2 \37\3\2\2\2!$\3\2\2\2\" \3\2\2\2"+
+		"\"#\3\2\2\2#&\3\2\2\2$\"\3\2\2\2%\'\7\3\2\2&%\3\2\2\2&\'\3\2\2\2\'(\3"+
+		"\2\2\2()\b\2\1\2)\3\3\2\2\2*+\7\"\2\2+,\7 \2\2,-\b\3\1\2-\5\3\2\2\2.\66"+
+		"\5\24\13\2/\66\5\26\f\2\60\66\5\16\b\2\61\62\5\32\16\2\62\63\7\13\2\2"+
+		"\63\64\7\34\2\2\64\66\3\2\2\2\65.\3\2\2\2\65/\3\2\2\2\65\60\3\2\2\2\65"+
+		"\61\3\2\2\2\66\7\3\2\2\2\678\7\b\2\289\7\20\2\29:\7\t\2\2:;\b\5\1\2;\t"+
+		"\3\2\2\2<=\7\b\2\2=>\7\26\2\2>?\7\t\2\2?@\7\26\2\2@A\b\6\1\2A\13\3\2\2"+
+		"\2BC\7\26\2\2CD\7\25\2\2DE\7\b\2\2EF\7\37\2\2FG\7\36\2\2GH\7\26\2\2HI"+
+		"\b\7\1\2I\r\3\2\2\2JK\7\4\2\2KL\7\b\2\2LM\7\35\2\2MN\7\36\2\2NO\b\b\1"+
+		"\2O\17\3\2\2\2PQ\7\n\2\2QR\7\t\2\2RS\t\2\2\2ST\7\t\2\2TU\7\f\2\2UV\5\32"+
+		"\16\2VW\b\t\1\2W\21\3\2\2\2XY\b\n\1\2YZ\7\b\2\2Z`\b\n\1\2[\\\7\t\2\2\\"+
+		"]\7\37\2\2]^\7\36\2\2^`\b\n\1\2_X\3\2\2\2_[\3\2\2\2`f\3\2\2\2ab\f\5\2"+
+		"\2bc\7\30\2\2ce\5\22\n\6da\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2g\23\3"+
+		"\2\2\2hf\3\2\2\2ij\7\7\2\2jk\7\27\2\2kl\5\22\n\2lm\7\27\2\2mn\7\17\2\2"+
+		"no\5\32\16\2op\b\13\1\2p\25\3\2\2\2qr\7\5\2\2rs\7\7\2\2st\7\27\2\2tu\5"+
+		"\30\r\2uw\7\27\2\2vx\7\6\2\2wv\3\2\2\2wx\3\2\2\2xy\3\2\2\2yz\b\f\1\2z"+
+		"\27\3\2\2\2{|\b\r\1\2|}\7\b\2\2}\u0083\b\r\1\2~\177\7 \2\2\177\u0083\b"+
+		"\r\1\2\u0080\u0081\7!\2\2\u0081\u0083\b\r\1\2\u0082{\3\2\2\2\u0082~\3"+
+		"\2\2\2\u0082\u0080\3\2\2\2\u0083\u0089\3\2\2\2\u0084\u0085\f\6\2\2\u0085"+
+		"\u0086\7\30\2\2\u0086\u0088\5\30\r\7\u0087\u0084\3\2\2\2\u0088\u008b\3"+
+		"\2\2\2\u0089\u0087\3\2\2\2\u0089\u008a\3\2\2\2\u008a\31\3\2\2\2\u008b"+
+		"\u0089\3\2\2\2\u008c\u0091\b\16\1\2\u008d\u0092\5\b\5\2\u008e\u0092\5"+
+		"\n\6\2\u008f\u0092\5\f\7\2\u0090\u0092\5\20\t\2\u0091\u008d\3\2\2\2\u0091"+
+		"\u008e\3\2\2\2\u0091\u008f\3\2\2\2\u0091\u0090\3\2\2\2\u0092\u009d\3\2"+
+		"\2\2\u0093\u0094\7\27\2\2\u0094\u0095\5\32\16\2\u0095\u0096\7\27\2\2\u0096"+
+		"\u009d\3\2\2\2\u0097\u0098\7\22\2\2\u0098\u009d\5\32\16\5\u0099\u009a"+
+		"\7\7\2\2\u009a\u009d\b\16\1\2\u009b\u009d\7\21\2\2\u009c\u008c\3\2\2\2"+
+		"\u009c\u0093\3\2\2\2\u009c\u0097\3\2\2\2\u009c\u0099\3\2\2\2\u009c\u009b"+
+		"\3\2\2\2\u009d\u00a9\3\2\2\2\u009e\u009f\f\b\2\2\u009f\u00a0\7\13\2\2"+
+		"\u00a0\u00a8\5\32\16\t\u00a1\u00a2\f\7\2\2\u00a2\u00a3\7\23\2\2\u00a3"+
+		"\u00a8\5\32\16\b\u00a4\u00a5\f\6\2\2\u00a5\u00a6\7\24\2\2\u00a6\u00a8"+
+		"\5\32\16\7\u00a7\u009e\3\2\2\2\u00a7\u00a1\3\2\2\2\u00a7\u00a4\3\2\2\2"+
+		"\u00a8\u00ab\3\2\2\2\u00a9\u00a7\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa\33"+
+		"\3\2\2\2\u00ab\u00a9\3\2\2\2\17\35\"&\65_fw\u0082\u0089\u0091\u009c\u00a7"+
+		"\u00a9";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

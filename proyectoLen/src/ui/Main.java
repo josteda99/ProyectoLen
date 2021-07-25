@@ -35,18 +35,19 @@ public class Main {
             /*Handlle error unecesary*/ 
          }
       }else{
-			String f = "(y/b'.y/a').v[z'].([#c -> ~Int].[#yy -> ~Int])".replaceAll("\\)[.]", ")").replaceAll("[.]\\(",
-					"(");
+         String f = "!(y/b'.y/a').v[z'].!(y/y.c/g')".replaceAll("\\)[.]", ")")
+               .replaceAll("[.]\\(","(");
+         System.out.println(f);
 			String[] aux = f.split("[\\(||\\)]");
 			// hacer una exprecion regular que separe por parentess balencuados o por el 
 			StringTokenizer t = new StringTokenizer("v[z'].y/b'", ".");
-			System.out.println(f);
-			System.out.println(aux.length);
+			// System.out.println(f);
+			// System.out.println(aux.length);
          for(int i = 0; i< aux.length; i++){
             System.out.println(i + ":" +aux[i]);
          }
-			System.out.println(Arrays.toString(aux));
-			System.out.println(t.nextToken());
+			// System.out.println(Arrays.toString(aux));
+			// System.out.println(t.nextToken());
       }
 	}
 }

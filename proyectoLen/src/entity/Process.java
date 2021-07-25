@@ -44,6 +44,7 @@ public class Process {
 				this.secuencia.add(sec);
 			}
 		}
+//		this.secuencia.forEach(s -> System.out.println(s));
 	}
 
 	protected <T> void send(T value, Channel c) {
@@ -62,9 +63,8 @@ public class Process {
 		// No supported yet
 	}
 
-	protected Channel crech(String name) {
-      System.out.println("Create Channel...");
-		return new Channel(name);
+	protected Channel crech(String name, String type) {
+		return new Channel(type, name);
 	}
 
 	// Mapea los parametros que recive de entrada con los parametros de la declaracion
@@ -83,18 +83,49 @@ public class Process {
       return channelMap;
 	}
 
-	public void run(String parameters, boolean toPrint) {
-      //    c[b']      	 c/f'		   if c' op s' 	[#z -> ~Int]
-		HashMap<String, String> channelMap = mapParameter(parameters);
-		for(String s: secuencia) {
-			StringTokenizer token = new StringTokenizer(s, ".");
+	protected void spam(String secuencia, HashMap <String, String> channelMap) {
+		for(int i = 0; i < spam; i++) {
+			StringTokenizer token = new StringTokenizer(secuencia, ".");
 			while (token.hasMoreTokens()) {
-            String t = token.nextToken();
+				String t = token.nextToken();
             if(t.contains("/")) {
 					// Llamada a funcion write usando los parametros
                String[] tAux = t.split("/");
 					send(localVar.get(tAux[1]), globalChannel.get(channelMap.get(tAux[0])));
-					if (token.countTokens() == 0 && toPrint) {
+					continue;
+				} 
+            if(t.contains("'")) {
+					// Llamada a funcion read usando los parametros
+					String[] tAux = t.split("\\[");
+               tAux[1] = tAux[1].replace("'","").replace("]","");
+					read(tAux[1], globalChannel.get(channelMap.get(tAux[0])));
+					continue;
+				}
+			}
+      }      
+	}
+
+	public void run(String parameters, boolean toPrint) {
+      //    c[b']      	 c/f'		   if c' op s' 	[#z -> ~Int]
+		HashMap<String, String> channelMap = mapParameter(parameters);
+		for(int i = 0; i < secuencia.size(); i++) {
+			StringTokenizer token = new StringTokenizer(secuencia.get(i), ".");
+			while (token.hasMoreTokens()) {
+				String t = token.nextToken();
+				if(t.contains("!")){
+					//llamada a Spam
+					if (t.length() == 1) 
+						spam(secuencia.get(++i), channelMap);
+					else
+						spam(t.replace("!", ""), channelMap);
+               System.out.printf("Spam %d times of Process\n------------------------------\n", spam);
+					continue;
+            }
+            if(t.contains("/")) {
+					// Llamada a funcion write usando los parametros
+               String[] tAux = t.split("/");
+					send(localVar.get(tAux[1]), globalChannel.get(channelMap.get(tAux[0])));
+					if ((i == secuencia.size() - 1) && toPrint) {
                   System.out.printf("Sent to Channel %s\n------------------------------\n",channelMap.get(tAux[0]));
 					}
 					continue;
@@ -103,10 +134,11 @@ public class Process {
 					// Llamada a funcion crech usando los parametros
                String[] tAux = t.split("->");
                tAux[0] = tAux[0].replace("[","").replace("#","");
-					globalChannel.putIfAbsent(tAux[0], crech(tAux[0]));
+               Channel a = crech(tAux[1].replace("~", ""),tAux[0]);
+					globalChannel.putIfAbsent(tAux[0], a);
 					channelMap.putIfAbsent(tAux[0], tAux[0]);
-               if (token.countTokens() == 0 && toPrint) {
-                  System.out.printf("Created Channel %s\n------------------------------\n",crech(tAux[0]).name);
+               if ((i == secuencia.size() - 1) && toPrint) {
+                  System.out.printf("Created Channel %s\n------------------------------\n",a.name);
 					}
 					continue;
             }  
@@ -115,15 +147,13 @@ public class Process {
 					String[] tAux = t.split("\\[");
                tAux[1] = tAux[1].replace("'","").replace("]","");
 					read(tAux[1], globalChannel.get(channelMap.get(tAux[0])));
-               if (token.countTokens() == 0 && toPrint) {
+               if ((i == secuencia.size() - 1) && toPrint) {
                   System.out.printf("Read value %s from Channel %s\n------------------------------\n",localVar.get(tAux[1]),channelMap.get(tAux[0]));
 					}
 					continue;
 				}
 			}
 		}
-
-      
 	}
 
 	public boolean sameParameters(String values) {
@@ -147,5 +177,13 @@ public class Process {
             	return false;
       }
 		return true;
+	}
+
+	public static void state() {
+		globalChannel.forEach((k, c) -> {
+			System.out.printf("Channel name: %s ->\n", c.getName());
+			c.getPath().forEach(o -> System.out.printf("%s ", o.toString()));
+			System.out.println();
+		});
 	}
 }

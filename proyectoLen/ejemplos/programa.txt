@@ -1,4 +1,4 @@
-%spam 20
+%spam 5
 
 /** Esto es un 
 *	Bloque de
@@ -8,27 +8,25 @@
 // Y(x, z, y, u, f) [#a]
 
 
-//X( y , v, a' -> ~Int) ::= !(y/b'.y/a').v[z'].[#c -> ~Int].[#yy -> ~Int]
+//X( y , v, a' -> ~Int) ::= (y/b'.y/a').!v[z'].[#c -> ~Int].[#yy -> ~Int]
 //Y( x , c, b' -> ~String) ::= c/b'.x[b']
 
-// secuencia [read(y, b').read(y, a')].send(v, z'). ...
+// secuencia [read(y, b').read(y, a')].send(v, z'). ..
 
 
-
-//X(y, v' -> ~Int) ::= y/v'
-X(y, v' -> ~Int) ::= y/v'.&
-Y(y) ::= y[b'].&
+X(y, v' -> ~Int, x' -> ~Int) ::= !(y/v'.y/x').&
+//X(y, v' -> ~Int) ::= y/v'.&
+//Y(y) ::= y[b'].&
 
 
 new xx :: ~String
 new y :: ~Int
 
-run X(y, 400) print
-run Y(y) print
+run X(y, 400, 10) print
+//run Y(y) print
 // run X(y, 5)
-
 
 //run Y(xx, y, "Mundo")
 //run X(xx, y, 2)
 
-
+state

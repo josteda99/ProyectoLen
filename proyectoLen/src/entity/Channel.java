@@ -5,12 +5,14 @@ import java.util.ArrayList;
 public class Channel {
 	
 	protected ArrayList<Object> path = new ArrayList<>();
-	protected String name;
+   protected String name;
+   protected String type;
 
 	public Channel() {}
 
-   public Channel(String name) {
+   public Channel(String type, String name) {
       // System.out.println("Channel Correct -> " + name);
+      this.type = type;
       this.name = name;
    }
 
@@ -36,6 +38,14 @@ public class Channel {
 
    public void setName(String name) {
       this.name = name;
+   }
+
+   public String getType() {
+      return this.type;
+   }
+
+   public void setType(String type) {
+      this.type = type;
    }
 
 }

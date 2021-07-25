@@ -29,6 +29,7 @@ private static String aux = "";
 }
 
 prog
+	locals[boolean showState]
 	@init{
 		System.out.printf("######    ####      ####     ##     ####       ####   ##   ##  ####     ##   ##   #####\n");
       System.out.printf(" ##  ##    ##      ##  ##   ####     ##       ##  ##  ##   ##   ##      ##   ##  ##   ##\n");
@@ -41,8 +42,13 @@ prog
       System.out.printf("---------------------------------------Version 1.0--------------------------------------\n");
 	}
 	@after {
+		//Process.globalChannel.get("y").getPath().forEach(s -> System.out.println(s));
+		if($showState) Process.state();
       }
-	: settings? stmt*;
+	: settings? stmt* state='state'?
+	{
+		$showState = $state != null;
+	};
 
 settings
 	: SpamSetting Int 
@@ -100,7 +106,7 @@ createCh:
 globalChan : 'new' Can DoDot Type 
 	{
 		/* Agregar a los canales globales */
-		Process.globalChannel.putIfAbsent($Can.text,new Channel($Type.text.replace("~","")));
+		Process.globalChannel.putIfAbsent($Can.text,new Channel($Type.text.replace("~",""), $Can.text));
 	};
    
 ifCond : Iff left=Var (Eq | Neq) right=Var Then oper
