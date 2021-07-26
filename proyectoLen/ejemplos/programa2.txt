@@ -1,0 +1,19 @@
+
+//Biologia Molecular
+
+//Acidos nucleicos
+//Bases nitrogenadas
+new a :: ~String
+new t :: ~String
+new g :: ~String
+new c :: ~String
+
+Decode(a ,t ,g ,c , x' -> ~String , y' -> ~String , z' -> ~String , w' -> ~String) ::= a/x'.t/y'.g/z'.c/w'.&
+
+Transcript(a, t, g, c, x' -> ~String , y' -> ~String , z' -> ~String , w' -> ~String) ::= a/x'.t/y'.g/z'.c/w'.&
+
+run Decode(a ,t ,g ,c , "adenina", "timina" , "guanina", "citosina" ) print
+run Transcript(a ,t ,g ,c , "adenina", "uracilo" , "guanina", "citosina" ) print
+
+
+state

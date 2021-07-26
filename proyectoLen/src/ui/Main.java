@@ -1,7 +1,6 @@
 package proyectoLen.src.ui;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -49,6 +48,7 @@ public class Main {
                url = "proyectoLen/ejemplos/programa3.txt";
                break;
             default:
+               url = "proyectoLen/ejemplos/programa.txt";
                System.out.println("Fail, run Program 1");
                break;
          }

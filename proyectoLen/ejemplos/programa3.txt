@@ -1,0 +1,14 @@
+%spam 5
+
+//Criptografia
+
+new c :: ~String 
+
+Encript(c, clave' -> ~Int, mensaje' -> ~String) ::= !(c/clave'.c/mensaje').[#aux -> ~String].aux/clave'.&
+Decript(c, clave' -> ~Int, mensaje' -> ~String) ::= c[clave'].c/clave'.c[mensaje'].&
+
+run Encript(c , 421 , "HolaMundo")
+run Decript(c , 421 , "AxRtyZ4Wg") print
+
+
+state
