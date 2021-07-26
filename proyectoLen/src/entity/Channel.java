@@ -11,7 +11,6 @@ public class Channel {
 	public Channel() {}
 
    public Channel(String type, String name) {
-      // System.out.println("Channel Correct -> " + name);
       this.type = type;
       this.name = name;
    }

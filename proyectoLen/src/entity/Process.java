@@ -22,7 +22,7 @@ public class Process {
 
 	public Process(String secuencia, String listaParametros) {
 		String aux = secuencia.replaceAll("\\)[.]", ")").replaceAll("[.]\\(", "(");
-		String[] secArray = aux.split("[\\(||\\)]");
+		String[] secArray = aux.split("[\\(|\\)]");
 		StringTokenizer lista = new StringTokenizer(listaParametros, ":");
 		// Las variables locales del proceso
 		while (lista.hasMoreTokens()) {
@@ -44,19 +44,20 @@ public class Process {
 				this.secuencia.add(sec);
 			}
 		}
-//		this.secuencia.forEach(s -> System.out.println(s));
 	}
 
 	protected <T> void send(T value, Channel c) {
-      // System.out.println("Send...");
 		c.sendValue((Object) value);
 	}
 
 	protected void read(String name, Channel c) {
-		if (localVar.containsKey(name))
-			localVar.compute(name, (k, v) -> v = c.getValue());
-		else
-			localVar.put(name, c.getValue());
+		if (localVar.containsKey(name)) {
+			Object value = c.getValue();
+			localVar.computeIfPresent(name, (k, v) -> v = value);
+		} else {
+			Object value = c.getValue();
+			localVar.put(name, value);
+		}
 	}
 
 	protected void ifStat() {
@@ -83,26 +84,34 @@ public class Process {
       return channelMap;
 	}
 
-	protected void spam(String secuencia, HashMap <String, String> channelMap) {
-		for(int i = 0; i < spam; i++) {
+	protected void spam(String secuencia, HashMap<String, String> channelMap, boolean print) {
+		boolean once = false;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < spam; i++) {
 			StringTokenizer token = new StringTokenizer(secuencia, ".");
 			while (token.hasMoreTokens()) {
 				String t = token.nextToken();
-            if(t.contains("/")) {
+				if (t.contains("/")) {
 					// Llamada a funcion write usando los parametros
-               String[] tAux = t.split("/");
+					String[] tAux = t.split("/");
 					send(localVar.get(tAux[1]), globalChannel.get(channelMap.get(tAux[0])));
 					continue;
-				} 
-            if(t.contains("'")) {
+				}
+				if (t.contains("'")) {
 					// Llamada a funcion read usando los parametros
 					String[] tAux = t.split("\\[");
-               tAux[1] = tAux[1].replace("'","").replace("]","");
-					read(tAux[1], globalChannel.get(channelMap.get(tAux[0])));
-					continue;
+					tAux[1] = tAux[1].replace("]", "");
+					read(tAux[1], globalChannel.get(channelMap.getOrDefault(tAux[0], tAux[0])));
+					if (!once && print) {
+						once = true;
+						sb.append("Read: ");
+					}
+					if (print)
+						sb.append(localVar.get(tAux[1])  + " ");
 				}
 			}
-      }      
+		}
+		if (print) System.out.println(sb.toString());
 	}
 
 	public void run(String parameters, boolean toPrint) {
@@ -115,10 +124,9 @@ public class Process {
 				if(t.contains("!")){
 					//llamada a Spam
 					if (t.length() == 1) 
-						spam(secuencia.get(++i), channelMap);
-					else
-						spam(t.replace("!", ""), channelMap);
-               System.out.printf("Spam %d times of Process\n------------------------------\n", spam);
+						spam(secuencia.get(++i), channelMap, (i == secuencia.size() - 1 && toPrint));
+					else 
+						spam(t.replace("!", ""), channelMap, (i == secuencia.size() - 1 && toPrint));
 					continue;
             }
             if(t.contains("/")) {
@@ -126,7 +134,9 @@ public class Process {
                String[] tAux = t.split("/");
 					send(localVar.get(tAux[1]), globalChannel.get(channelMap.get(tAux[0])));
 					if ((i == secuencia.size() - 1) && toPrint) {
-                  System.out.printf("Sent to Channel %s\n------------------------------\n",channelMap.get(tAux[0]));
+						System.out.printf(
+							"Sent to Channel %s\n",
+							channelMap.get(tAux[0]));
 					}
 					continue;
 				} 
@@ -134,23 +144,27 @@ public class Process {
 					// Llamada a funcion crech usando los parametros
                String[] tAux = t.split("->");
                tAux[0] = tAux[0].replace("[","").replace("#","");
-               Channel a = crech(tAux[1].replace("~", ""),tAux[0]);
+               Channel a = crech(tAux[0], tAux[1].replace("~", "").replace("]", ""));
 					globalChannel.putIfAbsent(tAux[0], a);
 					channelMap.putIfAbsent(tAux[0], tAux[0]);
                if ((i == secuencia.size() - 1) && toPrint) {
-                  System.out.printf("Created Channel %s\n------------------------------\n",a.name);
+						System.out.printf(
+								"Created Channel %s\n",
+								a.getName());
 					}
 					continue;
             }  
             if(t.contains("'")) {
 					// Llamada a funcion read usando los parametros
 					String[] tAux = t.split("\\[");
-               tAux[1] = tAux[1].replace("'","").replace("]","");
-					read(tAux[1], globalChannel.get(channelMap.get(tAux[0])));
+               tAux[1] = tAux[1].replace("]","");
+					read(tAux[1], globalChannel.get(channelMap.getOrDefault(tAux[0], tAux[0])));
                if ((i == secuencia.size() - 1) && toPrint) {
-                  System.out.printf("Read value %s from Channel %s\n------------------------------\n",localVar.get(tAux[1]),channelMap.get(tAux[0]));
+						System.out.printf(
+								"Read: value %s from Channel %s\n",
+								localVar.get(tAux[1]),
+								channelMap.get(tAux[0]));
 					}
-					continue;
 				}
 			}
 		}
@@ -169,9 +183,8 @@ public class Process {
 				continue;
 			if (proToken.contains("'") && !passToken.contains("+")) {
 				boolean type = passToken.matches("[+-]?\\d*(\\.\\d+)?");
-				if (proToken.contains("Int") && !type)
-					return false;
-				else if (proToken.contains("String") && type)
+				if (proToken.contains("Int") && !type 
+					|| proToken.contains("String") && type)
 					return false;
 			} else 
             	return false;
@@ -180,10 +193,14 @@ public class Process {
 	}
 
 	public static void state() {
+		System.out.println("\n-------------------------------");
+		System.out.println("---------Final state-----------\n");
 		globalChannel.forEach((k, c) -> {
 			System.out.printf("Channel name: %s ->\n", c.getName());
 			c.getPath().forEach(o -> System.out.printf("%s ", o.toString()));
 			System.out.println();
 		});
+		System.out.println("-------------------------------");
+		System.out.println("-------------------------------");
 	}
 }

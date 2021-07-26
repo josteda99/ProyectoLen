@@ -51,6 +51,9 @@ settings
 
 stmt
 	@after {
+		processAux.clear();
+		nameAux.clear();
+		parAux.clear();
 		varScope.forEach((k, v) -> System.out.println(k + " -> " + v));
 		varScope.replaceAll((k,v) -> FREE);}
 	: process
@@ -73,7 +76,8 @@ write
 	varScope.compute($Var.text, (k, v) -> v = FREE);};
 
 read:
-	Can Par Var Par {if(!chanScope.containsKey($Can.text)) {
+	Can Par Var Par 
+	{if(!chanScope.containsKey($Can.text) && !Process.globalChannel.containsKey($Can.text)) {
 		System.out.printf("Error in Line %d:%d -> Channel %s no declared\n", $Can.line, $Can.pos, $Can.text);
 		SEMANTIC_ERROR = true;
 		throw new RuntimeException();
@@ -131,9 +135,10 @@ process
 	locals[String name, String sec]
 	@after {chanScope.clear();
 			varScope.clear();
-			processScope.putIfAbsent($name, new Process($sec ,aux.substring(0, aux.length() - 1)));
+			if(aux.length() != 0) aux = aux.substring(0, aux.length() - 1);
+			processScope.putIfAbsent($name, new Process($sec ,aux));
 			aux = "";}:
-	Cap ParA parameters ParA Pd oper {
+	Cap ParA parameters? ParA Pd oper {
 		if(!processScope.containsKey($Cap.text)) {
 			$name = $Cap.text;
 		} else {
@@ -148,7 +153,7 @@ run
 	locals[boolean toPrint]
 	@after{	
 		for(int i = 0; i < nameAux.size(); i++) {
-			System.out.printf("Running Process %s ...\n", nameAux.get(i));
+			System.out.printf("\n------------------------------\n\nRunning Process %s \n", nameAux.get(i));
 			processScope.get(nameAux.get(i)).run(parAux.get(i), $toPrint);
 		}}
 	: 'run' toRun print='print'? {
@@ -157,7 +162,7 @@ run
 
 toRun
 	: toRun Con toRun
-	| Cap ParA variables ParA
+	| Cap ParA variables? ParA
 	{
       if(!processScope.containsKey($Cap.text)) {
          System.out.printf("Error in Line %d:%d -> Process %s no declared\n", $Cap.line, $Cap.pos, $Cap.text);
@@ -200,7 +205,6 @@ oper: (write | read | createCh | ifCond)
 			throw new RuntimeException();
 		}}
 	| Tao;
-
 
 /* Lexer tokens*/
 Cap      	: [A-Z][a-zA-Z]*;

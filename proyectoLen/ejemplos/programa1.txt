@@ -1,9 +1,17 @@
-%spam 5
+%spam 2
 
-new xx :: ~String
-new y :: ~Int	
-Y( x , c, b' -> ~String) ::= c/b'.x[b']
-run Y(xx, y, "Mundo")
+new mensaje :: ~String
+	
+Escritura(x ,b' -> ~String) ::= x/b'.&
+Lectura(z) ::= [#intermedio -> ~String].!(z[y'].intermedio/y').&
 
+run Escritura(mensaje, "Hola")
+run Escritura(mensaje, "Pi-calculo")
+
+run Lectura(mensaje)
+
+LeeIntermedio() ::= !intermedio[variable']
+
+run LeeIntermedio() print
 
 state
