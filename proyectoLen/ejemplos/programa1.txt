@@ -1,0 +1,9 @@
+%spam 5
+
+new xx :: ~String
+new y :: ~Int	
+Y( x , c, b' -> ~String) ::= c/b'.x[b']
+run Y(xx, y, "Mundo")
+
+
+state

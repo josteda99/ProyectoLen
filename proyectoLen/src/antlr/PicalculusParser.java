@@ -148,17 +148,6 @@ public class PicalculusParser extends Parser {
 	public final ProgContext prog() throws RecognitionException {
 		ProgContext _localctx = new ProgContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_prog);
-
-				System.out.printf("######    ####      ####     ##     ####       ####   ##   ##  ####     ##   ##   #####\n");
-		      System.out.printf(" ##  ##    ##      ##  ##   ####     ##       ##  ##  ##   ##   ##      ##   ##  ##   ##\n");
-		      System.out.printf(" ##  ##    ##     ##       ##  ##    ##      ##       ##   ##   ##      ##   ##  #\n");
-		      System.out.printf(" #####     ##     ##       ##  ##    ##      ##       ##   ##   ##      ##   ##   #####\n");
-		      System.out.printf(" ##        ##     ##       ######    ##   #  ##       ##   ##   ##   #  ##   ##       ##\n");
-		      System.out.printf(" ##        ##      ##  ##  ##  ##    ##  ##   ##  ##  ##   ##   ##  ##  ##   ##  ##   ##\n");
-		      System.out.printf("####      ####      ####   ##  ##   #######    ####    #####   #######   #####    #####\n\n");
-		      System.out.printf("-----------------------Developed by Julio Quintero and Johan Daza-----------------------\n");
-		      System.out.printf("--------------------------------------Version 1.0.2-------------------------------------\n");
-			
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);

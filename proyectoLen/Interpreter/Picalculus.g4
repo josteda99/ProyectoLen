@@ -34,17 +34,6 @@ private static String aux = "";
 
 prog
 	locals[boolean showState]
-	@init{
-		System.out.printf("######    ####      ####     ##     ####       ####   ##   ##  ####     ##   ##   #####\n");
-      System.out.printf(" ##  ##    ##      ##  ##   ####     ##       ##  ##  ##   ##   ##      ##   ##  ##   ##\n");
-      System.out.printf(" ##  ##    ##     ##       ##  ##    ##      ##       ##   ##   ##      ##   ##  #\n");
-      System.out.printf(" #####     ##     ##       ##  ##    ##      ##       ##   ##   ##      ##   ##   #####\n");
-      System.out.printf(" ##        ##     ##       ######    ##   #  ##       ##   ##   ##   #  ##   ##       ##\n");
-      System.out.printf(" ##        ##      ##  ##  ##  ##    ##  ##   ##  ##  ##   ##   ##  ##  ##   ##  ##   ##\n");
-      System.out.printf("####      ####      ####   ##  ##   #######    ####    #####   #######   #####    #####\n\n");
-      System.out.printf("-----------------------Developed by Julio Quintero and Johan Daza-----------------------\n");
-      System.out.printf("--------------------------------------Version 1.0.2-------------------------------------\n");
-	}
 	@after {
 		//Process.globalChannel.get("y").getPath().forEach(s -> System.out.println(s));
 		if($showState) Process.state();
