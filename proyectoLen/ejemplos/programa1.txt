@@ -2,6 +2,8 @@
 %state
 
 new mensaje :: ~String
+
+Test(x, y' -> ~String, z' -> ~String) ::= if y' != z' then (x/y'.x/z').&
 	
 Escritura(x ,b' -> ~String) ::= x/b'.&
 Lectura(z) ::= [#intermedio -> ~String].!(z[y'].intermedio/y').&
@@ -14,3 +16,5 @@ run Lectura(mensaje)
 LeeIntermedio() ::= !intermedio[variable']
 
 run LeeIntermedio() print
+
+run Test(mensaje, "Hola", "Mundo")

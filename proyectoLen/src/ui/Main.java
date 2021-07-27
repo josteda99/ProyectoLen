@@ -14,7 +14,8 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 
 public class Main {
-	public static void main(String[] args) throws IOException, InterruptedException {
+   
+   public static void main(String[] args) throws IOException, InterruptedException {
       String url = "proyectoLen/ejemplos/programa1.txt";
       System.out.printf("######    ####      ####     ##     ####       ####   ##   ##  ####     ##   ##   #####\n");
       System.out.printf(" ##  ##    ##      ##  ##   ####     ##       ##  ##  ##   ##   ##      ##   ##  ##   ##\n");
@@ -31,9 +32,9 @@ public class Main {
       System.out.println("(2)->Program 2");
       System.out.println("(3)->Program 3");
          
-      Scanner sc = new Scanner(System.in);
+      var sc = new Scanner(System.in);
       int opt = sc.nextInt();
-
+      sc.close();
       switch (opt) {
          case 1:
             url = "proyectoLen/ejemplos/programa1.txt";
@@ -63,7 +64,7 @@ public class Main {
          if(!PicalculusParser.SEMANTIC_ERROR)
             Trees.inspect(tree, parser);
       } catch (RuntimeException e) {
-         /*Handlle error unecesary*/ 
+         //Handlle error unecesary 
       }
 	}     
 }

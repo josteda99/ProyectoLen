@@ -103,15 +103,15 @@ globalChan : 'new' Can DoDot Type
 		Process.globalChannel.putIfAbsent($Can.text,new Channel($Type.text.replace("~",""), $Can.text));
 	};
    
-ifCond : Iff left=Var (Eq | Neq) right=Var Then oper
+ifCond : 'if' left=Var (Eq | Neq) right=Var 'then' oper
 	{int value = varScope.getOrDefault($left.text, -1);
-	if(value == -1 || (value & FREE) == FREE) {
-      	System.out.printf("Error in Line %d:%d -> Variable %s is not free or not exist\n", $left.line, $left.pos, $left.text);
+	if(value == -1 || (value & FREE) != FREE) {
+      System.out.printf("Error in Line %d:%d -> Variable %s is not free or not exist\n", $left.line, $left.pos, $left.text);
 		SEMANTIC_ERROR = true;
 		throw new RuntimeException();
 	}
 	value = varScope.getOrDefault($right.text, -1);
-	if(value == -1 || (value & FREE) == FREE) {
+	if(value == -1 || (value & FREE) != FREE) {
 		System.out.printf("Error in Line %d:%d -> Variable %s is not free or not exist\n", $right.line, $right.pos, $right.text);
 		SEMANTIC_ERROR = true;
 		throw new RuntimeException();
@@ -207,9 +207,7 @@ oper: (write | read | createCh | ifCond)
 Cap      	: [A-Z][a-zA-Z]*;
 Can      	: Letter+;
 Var      	: Letter+'\'';
-Iff      	: 'if';
 Dot      	: '.';
-Then     	: 'then';
 Eq       	: '==';
 Neq      	: '!=';
 Pd       	: '::=';
