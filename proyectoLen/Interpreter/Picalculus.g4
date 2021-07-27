@@ -37,13 +37,10 @@ prog
 	@after {
 		if(showState) Process.state();
 	}
-	: settings? stmt*
-	{
-		
-	};
+	: settings stmt*;
 
 settings	
-	: SpamSetting Int state='%state'? 
+	: (SpamSetting Int)? state='%state'?
 	{
 		Process.spam = $Int.int;
 		showState = $state != null;
