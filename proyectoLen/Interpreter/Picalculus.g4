@@ -30,23 +30,23 @@ protected ArrayList<Process> processAux = new ArrayList<>();
 protected ArrayList<String> nameAux = new ArrayList<>();
 protected ArrayList<String> parAux = new ArrayList<>();
 private static String aux = "";
+protected boolean showState;
 }
 
 prog
-	locals[boolean showState]
 	@after {
-		//Process.globalChannel.get("y").getPath().forEach(s -> System.out.println(s));
-		if($showState) Process.state();
-   }
-	: settings? stmt* state='state'?
+		if(showState) Process.state();
+	}
+	: settings? stmt*
 	{
-		$showState = $state != null;
+		
 	};
 
-settings
-	: SpamSetting Int 
+settings	
+	: SpamSetting Int state='%state'? 
 	{
 		Process.spam = $Int.int;
+		showState = $state != null;
 	};
 
 stmt

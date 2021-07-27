@@ -1,4 +1,5 @@
 %spam 2
+%state
 
 new mensaje :: ~String
 	
@@ -13,5 +14,3 @@ run Lectura(mensaje)
 LeeIntermedio() ::= !intermedio[variable']
 
 run LeeIntermedio() print
-
-state

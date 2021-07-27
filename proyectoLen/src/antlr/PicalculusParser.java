@@ -44,7 +44,7 @@ public class PicalculusParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'state'", "'new'", "'run'", "'print'", null, null, null, "'if'", 
+			null, "'%state'", "'new'", "'run'", "'print'", null, null, null, "'if'", 
 			"'.'", "'then'", "'=='", "'!='", "'::='", "'/'", "'&'", "'!'", "'|'", 
 			"'+'", "'#'", null, null, "','", null, null, null, "'0'", "'::'", null, 
 			"'->'", null, null, "'%spam'"
@@ -121,6 +121,7 @@ public class PicalculusParser extends Parser {
 	protected ArrayList<String> nameAux = new ArrayList<>();
 	protected ArrayList<String> parAux = new ArrayList<>();
 	private static String aux = "";
+	protected boolean showState;
 
 	public PicalculusParser(TokenStream input) {
 		super(input);
@@ -128,8 +129,6 @@ public class PicalculusParser extends Parser {
 	}
 
 	public static class ProgContext extends ParserRuleContext {
-		public boolean showState;
-		public Token state;
 		public SettingsContext settings() {
 			return getRuleContext(SettingsContext.class,0);
 		}
@@ -176,25 +175,14 @@ public class PicalculusParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(38);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==T__0) {
-				{
-				setState(37);
-				((ProgContext)_localctx).state = match(T__0);
-				}
-			}
 
-
-					((ProgContext)_localctx).showState =  ((ProgContext)_localctx).state != null;
+					
 				
 			}
 			_ctx.stop = _input.LT(-1);
 
-					//Process.globalChannel.get("y").getPath().forEach(s -> System.out.println(s));
-					if(_localctx.showState) Process.state();
-			   
+					if(showState) Process.state();
+				
 		}
 		catch (RecognitionException re) {
 			_localctx.exception = re;
@@ -209,6 +197,7 @@ public class PicalculusParser extends Parser {
 
 	public static class SettingsContext extends ParserRuleContext {
 		public Token Int;
+		public Token state;
 		public TerminalNode SpamSetting() { return getToken(PicalculusParser.SpamSetting, 0); }
 		public TerminalNode Int() { return getToken(PicalculusParser.Int, 0); }
 		public SettingsContext(ParserRuleContext parent, int invokingState) {
@@ -220,15 +209,27 @@ public class PicalculusParser extends Parser {
 	public final SettingsContext settings() throws RecognitionException {
 		SettingsContext _localctx = new SettingsContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_settings);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(42);
+			setState(39);
 			match(SpamSetting);
-			setState(43);
+			setState(40);
 			((SettingsContext)_localctx).Int = match(Int);
+			setState(42);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__0) {
+				{
+				setState(41);
+				((SettingsContext)_localctx).state = match(T__0);
+				}
+			}
+
 
 					Process.spam = (((SettingsContext)_localctx).Int!=null?Integer.valueOf(((SettingsContext)_localctx).Int.getText()):0);
+					showState = ((SettingsContext)_localctx).state != null;
 				
 			}
 		}
@@ -1276,7 +1277,7 @@ public class PicalculusParser extends Parser {
 		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\"\u00bb\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\3\2\5\2 \n\2\3\2\7\2#\n\2\f\2"+
-		"\16\2&\13\2\3\2\5\2)\n\2\3\2\3\2\3\3\3\3\3\3\3\3\3\4\3\4\3\4\5\4\64\n"+
+		"\16\2&\13\2\3\2\3\2\3\3\3\3\3\3\5\3-\n\3\3\3\3\3\3\4\3\4\3\4\5\4\64\n"+
 		"\4\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7"+
 		"\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\n\3"+
 		"\n\3\n\3\n\3\n\3\n\3\n\5\n^\n\n\3\n\3\n\3\n\7\nc\n\n\f\n\16\nf\13\n\3"+
@@ -1287,13 +1288,13 @@ public class PicalculusParser extends Parser {
 		"\17\3\17\3\17\5\17\u00a0\n\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17"+
 		"\3\17\5\17\u00ab\n\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\7\17"+
 		"\u00b6\n\17\f\17\16\17\u00b9\13\17\3\17\2\6\22\30\32\34\20\2\4\6\b\n\f"+
-		"\16\20\22\24\26\30\32\34\2\3\3\2\r\16\2\u00c4\2\37\3\2\2\2\4,\3\2\2\2"+
+		"\16\20\22\24\26\30\32\34\2\3\3\2\r\16\2\u00c4\2\37\3\2\2\2\4)\3\2\2\2"+
 		"\6\63\3\2\2\2\b\65\3\2\2\2\n:\3\2\2\2\f@\3\2\2\2\16H\3\2\2\2\20N\3\2\2"+
 		"\2\22]\3\2\2\2\24g\3\2\2\2\26q\3\2\2\2\30x\3\2\2\2\32\u0090\3\2\2\2\34"+
 		"\u00aa\3\2\2\2\36 \5\4\3\2\37\36\3\2\2\2\37 \3\2\2\2 $\3\2\2\2!#\5\6\4"+
-		"\2\"!\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%(\3\2\2\2&$\3\2\2\2\')\7"+
-		"\3\2\2(\'\3\2\2\2()\3\2\2\2)*\3\2\2\2*+\b\2\1\2+\3\3\2\2\2,-\7\"\2\2-"+
-		".\7 \2\2./\b\3\1\2/\5\3\2\2\2\60\64\5\24\13\2\61\64\5\26\f\2\62\64\5\16"+
+		"\2\"!\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%\'\3\2\2\2&$\3\2\2\2\'(\b"+
+		"\2\1\2(\3\3\2\2\2)*\7\"\2\2*,\7 \2\2+-\7\3\2\2,+\3\2\2\2,-\3\2\2\2-.\3"+
+		"\2\2\2./\b\3\1\2/\5\3\2\2\2\60\64\5\24\13\2\61\64\5\26\f\2\62\64\5\16"+
 		"\b\2\63\60\3\2\2\2\63\61\3\2\2\2\63\62\3\2\2\2\64\7\3\2\2\2\65\66\7\b"+
 		"\2\2\66\67\7\20\2\2\678\7\t\2\289\b\5\1\29\t\3\2\2\2:;\7\b\2\2;<\7\26"+
 		"\2\2<=\7\t\2\2=>\7\26\2\2>?\b\6\1\2?\13\3\2\2\2@A\7\26\2\2AB\7\25\2\2"+
@@ -1328,7 +1329,7 @@ public class PicalculusParser extends Parser {
 		"\u00b3\f\6\2\2\u00b3\u00b4\7\24\2\2\u00b4\u00b6\5\34\17\7\u00b5\u00ac"+
 		"\3\2\2\2\u00b5\u00af\3\2\2\2\u00b5\u00b2\3\2\2\2\u00b6\u00b9\3\2\2\2\u00b7"+
 		"\u00b5\3\2\2\2\u00b7\u00b8\3\2\2\2\u00b8\35\3\2\2\2\u00b9\u00b7\3\2\2"+
-		"\2\22\37$(\63]djt|\u0086\u0090\u0097\u009f\u00aa\u00b5\u00b7";
+		"\2\22\37$,\63]djt|\u0086\u0090\u0097\u009f\u00aa\u00b5\u00b7";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

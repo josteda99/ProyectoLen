@@ -1,3 +1,4 @@
+%state
 
 //Biologia Molecular
 
@@ -16,4 +17,3 @@ run Decode(a ,t ,g ,c , "adenina", "timina" , "guanina", "citosina" ) print
 run Transcript(a ,t ,g ,c , "adenina", "uracilo" , "guanina", "citosina" ) print
 
 
-state
